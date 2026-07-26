@@ -1,0 +1,11 @@
+# The Ledger holds every answer and the override phrase. It is generated
+# locally by the build and must NEVER enter this (public) repository.
+docs/KEEPERS-LEDGER.md
+
+# Plaintext puzzle answers live here, for the author and the build only.
+src/content/answers.local.js
+
+# Editor/OS noise and scratch files
+*.bak
+Thumbs.db
+.DS_Store

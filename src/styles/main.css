@@ -1,0 +1,252 @@
+/* Curiosity Hour — one stylesheet, four eras.
+   The era palette is driven by data-era on <body> (§5 of the spec). */
+
+:root {
+  --broadcast-ink: #14110F;
+  --studio-cream: #E8DFC8;
+  --curiosity-teal: #2E6E6B;
+  --marigold: #D9A441;
+  --signal-red: #8C2F27;
+  --phosphor: #B6C7BE;
+
+  /* Semantic tokens — eras override these, components use only these. */
+  --bg: var(--broadcast-ink);
+  --panel: var(--studio-cream);
+  --panel-ink: var(--broadcast-ink);
+  --chrome: var(--curiosity-teal);
+  --accent: var(--marigold);
+  --danger: var(--signal-red);
+  --subtitle: var(--phosphor);
+}
+
+/* Era overrides (full degradation lands in milestone 5; hooks live here now) */
+body[data-era="warm"] {
+  --chrome: var(--curiosity-teal);
+  --accent: var(--marigold);
+}
+body[data-era="cooling"] {
+  --chrome: #3E5B59;             /* desaturated teal */
+  --accent: #C29A4B;
+}
+body[data-era="cold"] {
+  --panel: #1C1917;
+  --panel-ink: var(--phosphor);
+  --chrome: #2A2E2C;
+  --accent: var(--signal-red);
+}
+body[data-era="notebook"] {
+  --bg: #EFE8D6;                 /* paper, no broadcast palette */
+  --panel: #EFE8D6;
+  --panel-ink: #23201B;
+  --chrome: #EFE8D6;
+  --accent: #23201B;
+  --subtitle: #23201B;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* Fonts: self-hosted WOFF2 arrives with the asset pass. The stacks below are
+   the required fallback — the game must play with assets/ deleted (constraint 9). */
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: var(--panel-ink);
+}
+code, .key-text, .big-input {
+  font-family: Consolas, "Courier New", monospace;
+}
+
+/* ---- Stage: 640x360 logical, integer-scaled, nearest-neighbour ---- */
+#viewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#stage {
+  position: relative;
+  width: 640px;
+  height: 360px;
+  background: var(--broadcast-ink);
+  transform-origin: center center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+#stage img, #stage canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+}
+.screen[hidden] { display: none; }
+
+/* ---- Focus: always visible (keyboard-only playthrough is an acceptance test) ---- */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- Title ---- */
+#screen-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+.title-card { text-align: center; }
+.show-title {
+  color: var(--accent);
+  font-size: 40px;
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 0 var(--chrome);
+}
+.show-sub {
+  color: var(--subtitle);
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+.menu { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.menu-btn {
+  font: inherit;
+  font-size: 14px;
+  min-width: 200px;
+  padding: 8px 16px;
+  color: var(--studio-cream);
+  background: var(--chrome);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+}
+.menu-btn:hover { background: var(--accent); color: var(--broadcast-ink); }
+
+/* ---- Scene player ---- */
+#screen-scene { background: var(--broadcast-ink); }
+.scene-art {
+  position: absolute;
+  inset: 0 0 96px 0;
+  background: var(--broadcast-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--phosphor);
+  font-size: 11px;
+}
+.scene-panel {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 96px;
+  padding: 8px 14px;
+  background: var(--panel);
+  color: var(--panel-ink);
+  border-top: 3px solid var(--chrome);
+}
+.scene-speaker {
+  color: var(--chrome);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+body[data-era="cold"] .scene-speaker { color: var(--accent); }
+.scene-text {
+  font-size: 14px;
+  line-height: 1.45;
+}
+.scene-hint {
+  position: absolute;
+  right: 10px; bottom: 4px;
+  font-size: 9px;
+  opacity: 0.55;
+}
+
+/* ---- Panels (code entry, key, error) ---- */
+.panel {
+  position: absolute;
+  inset: 0;
+  padding: 20px 28px;
+  background: var(--panel);
+  color: var(--panel-ink);
+  overflow-y: auto;
+}
+.panel h2 {
+  color: var(--chrome);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+body[data-era="cold"] .panel h2 { color: var(--accent); }
+.panel h3 { font-size: 13px; margin: 14px 0 6px; }
+.panel .small { font-size: 11px; line-height: 1.5; margin-bottom: 10px; }
+.row { display: flex; gap: 8px; margin-top: 10px; }
+.row .menu-btn { min-width: 120px; }
+
+.big-input {
+  width: 100%;
+  font-size: 20px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 8px;
+  border: 2px solid var(--chrome);
+  background: #fff;
+  color: var(--broadcast-ink);
+}
+.key-text {
+  width: 100%;
+  font-size: 11px;
+  padding: 6px;
+  border: 2px solid var(--chrome);
+  background: #fff;
+  color: var(--broadcast-ink);
+  resize: none;
+  word-break: break-all;
+}
+.feedback {
+  font-size: 11px;
+  min-height: 16px;
+  margin-top: 6px;
+}
+.feedback.bad { color: var(--danger); }
+.feedback.good { color: var(--curiosity-teal); }
+
+/* ---- Error screen: plain English, never a white screen ---- */
+.error-panel { border: 4px solid var(--danger); }
+.error-panel h2 { color: var(--danger); }
+#error-report { font-size: 12px; line-height: 1.6; }
+#error-report .error-item {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: rgba(140, 47, 39, 0.08);
+  border-left: 3px solid var(--danger);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ---- Print: only the Keeper's Key card ---- */
+@media print {
+  body * { visibility: hidden; }
+  #key-card, #key-card * { visibility: visible; }
+  #key-card {
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%;
+  }
+  #key-card .key-text {
+    border: 1px solid #000;
+    font-size: 12pt;
+    height: auto;
+  }
+}

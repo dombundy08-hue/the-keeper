@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Curiosity Hour</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="src/styles/main.css">
+<script>
+/* First script on the page: catch every later error, including typos in the
+   content files, and remember them so boot can explain in plain English.
+   On file:// the browser sometimes hides error details ("Script error."),
+   so boot.js ALSO checks that each content file actually produced its data. */
+window.__CH_ERRORS = [];
+window.onerror = function (message, source, line) {
+  window.__CH_ERRORS.push({ message: String(message), source: String(source || ''), line: line || 0 });
+  return false;
+};
+</script>
+</head>
+<body data-era="warm">
+
+<div id="viewport">
+  <div id="stage">
+
+    <!-- Title screen -->
+    <section class="screen" id="screen-title" hidden>
+      <div class="title-card">
+        <h1 class="show-title">CURIOSITY&nbsp;HOUR</h1>
+        <p class="show-sub">the official home game</p>
+        <div class="menu">
+          <button id="btn-begin" class="menu-btn">Begin</button>
+          <button id="btn-continue" class="menu-btn" hidden>Continue</button>
+          <button id="btn-code" class="menu-btn">Enter a code</button>
+          <button id="btn-key" class="menu-btn">Keeper's Key</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene player -->
+    <section class="screen" id="screen-scene" hidden>
+      <div id="scene-art" class="scene-art"></div>
+      <div class="scene-panel">
+        <div id="scene-speaker" class="scene-speaker"></div>
+        <div id="scene-text" class="scene-text"></div>
+        <div class="scene-hint">click or press Enter to continue</div>
+      </div>
+    </section>
+
+    <!-- Code entry (physical -> digital bridge; full version in a later milestone) -->
+    <section class="screen" id="screen-code" hidden>
+      <div class="panel">
+        <h2>Enter a code</h2>
+        <input id="code-input" class="big-input" type="text" autocomplete="off"
+               spellcheck="false" aria-label="Code">
+        <p id="code-feedback" class="feedback" role="status"></p>
+        <div class="row">
+          <button id="btn-code-submit" class="menu-btn">Try it</button>
+          <button id="btn-code-back" class="menu-btn">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Keeper's Key: durable save that survives localStorage loss -->
+    <section class="screen" id="screen-key" hidden>
+      <div class="panel">
+        <h2>Keeper's Key</h2>
+        <p class="small">This key holds your whole game. Copy it somewhere safe,
+           or print it. If the game ever forgets you, paste it back in here.</p>
+        <div id="key-card" class="key-card">
+          <textarea id="key-current" class="key-text" readonly rows="4"
+                    aria-label="Your Keeper's Key"></textarea>
+        </div>
+        <div class="row">
+          <button id="btn-key-copy" class="menu-btn">Copy</button>
+          <button id="btn-key-print" class="menu-btn">Print</button>
+        </div>
+        <h3>Load a key</h3>
+        <textarea id="key-input" class="key-text" rows="4"
+                  aria-label="Paste a Keeper's Key here"></textarea>
+        <p id="key-feedback" class="feedback" role="status"></p>
+        <div class="row">
+          <button id="btn-key-load" class="menu-btn">Load this key</button>
+          <button id="btn-key-back" class="menu-btn">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plain-English error screen. Constraint 8: never a white screen. -->
+    <section class="screen" id="screen-error" hidden>
+      <div class="panel error-panel">
+        <h2>The show hit a snag</h2>
+        <div id="error-report"></div>
+        <p class="small">Nothing is lost. Fix the file above and reload the page.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- Engine -->
+<script src="src/engine/hash.js"></script>
+<script src="src/engine/state.js"></script>
+<script src="src/engine/key.js"></script>
+<script src="src/engine/scenes.js"></script>
+<script src="src/engine/screens.js"></script>
+
+<!-- Content: these four files are the whole story. They are safe to edit. -->
+<script src="src/content/manifest.js"></script>
+<script src="src/content/rooms.js"></script>
+<script src="src/content/story.js"></script>
+<script src="src/content/puzzles.js"></script>
+
+<!-- Boot last -->
+<script src="src/engine/boot.js"></script>
+</body>
+</html>
