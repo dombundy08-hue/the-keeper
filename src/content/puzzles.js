@@ -28,7 +28,7 @@ window.PUZZLES = {
       "TODO: author input required — direction hint.",
       "TODO: author input required — the answer, in the Keeper's voice."
     ],
-    onSolve: { reveal: 'code' }    /* wiring lands in milestone 4 */
+    onSolve: { goto: { chapter: 'ep1', scene: 'ep1_s10' } }
   },
 
   /* Example typed puzzle from the spec, kept as the worked example. */

@@ -4,7 +4,7 @@
 window.CH = window.CH || {};
 
 CH.screens = (function () {
-  var NAMES = ['title', 'scene', 'code', 'key', 'settings', 'error'];
+  var NAMES = ['title', 'scene', 'room', 'code', 'key', 'settings', 'error'];
   var current = null;
   var settingsReturnTo = 'title';   /* where Back goes from the menu */
 
@@ -30,8 +30,12 @@ CH.screens = (function () {
   }
 
   function leaveSettings() {
-    if (settingsReturnTo === 'scene') CH.scenes.backToScene();
-    else CH.screens.show('title');
+    if (settingsReturnTo === 'scene') { CH.scenes.backToScene(); return; }
+    if (settingsReturnTo === 'room') {
+      var d = CH.state.get();
+      if (d.room) { CH.rooms.enter(d.room); return; }
+    }
+    CH.screens.show('title');
   }
 
   return {
@@ -199,6 +203,7 @@ CH.screens = (function () {
         }
         if (ev.key === 'Escape') {
           if (current === 'scene') self.openSettings('scene');
+          else if (current === 'room') self.openSettings('room');
           else if (current === 'settings') leaveSettings();
           else if (current !== 'title' && current !== 'error') self.show('title');
         }

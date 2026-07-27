@@ -86,6 +86,19 @@ window.onerror = function (message, source, line) {
       </div>
     </section>
 
+    <!-- Room view -->
+    <section class="screen" id="screen-room" hidden>
+      <div id="room-art" class="scene-art room-art"></div>
+      <div id="room-hotspots" class="room-hotspots"></div>
+      <div class="room-panel">
+        <div class="room-panel-top">
+          <span id="room-name" class="room-name"></span>
+          <span id="room-object-name" class="room-object-name"></span>
+        </div>
+        <div id="room-look-text" class="scene-text"></div>
+      </div>
+    </section>
+
     <!-- Settings (also the in-game menu; Esc opens it from a scene) -->
     <section class="screen" id="screen-settings" hidden>
       <div class="panel">
@@ -134,6 +147,8 @@ window.onerror = function (message, source, line) {
 <script src="src/engine/key.js"></script>
 <script src="src/engine/audio.js"></script>
 <script src="src/engine/scenes.js"></script>
+<script src="src/engine/rooms.js"></script>
+<script src="src/engine/puzzles.js"></script>
 <script src="src/engine/screens.js"></script>
 
 <!-- Content: these four files are the whole story. They are safe to edit. -->

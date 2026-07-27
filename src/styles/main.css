@@ -219,6 +219,72 @@ body[data-era="cold"] .panel h2 { color: var(--accent); }
 .feedback.bad { color: var(--danger); }
 .feedback.good { color: var(--curiosity-teal); }
 
+/* ---- Room view ---- */
+#screen-room { cursor: zoom-in; background: var(--broadcast-ink); }
+.room-art { inset: 0 0 72px 0; }
+.room-art img { width: 640px; height: 360px; position: absolute; inset: 0; }
+.room-hotspots { position: absolute; inset: 0 0 72px 0; overflow: hidden; }
+.hotspot {
+  position: absolute;
+  cursor: zoom-in;
+}
+.hotspot:hover, .hotspot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0;
+  background: rgba(217, 164, 65, 0.12);
+}
+.hotspot:focus-visible { outline-width: 3px; }
+.hotspot-label {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: -18px;
+  padding: 2px 6px;
+  font-size: 10px;
+  white-space: nowrap;
+  background: var(--broadcast-ink);
+  color: var(--subtitle);
+  border: 1px solid var(--accent);
+  pointer-events: none;
+}
+.hotspot:hover .hotspot-label,
+.hotspot:focus-visible .hotspot-label { display: block; }
+.hotspot.exit:hover, .hotspot.exit:focus-visible {
+  outline-color: var(--chrome);
+  background: rgba(46, 110, 107, 0.15);
+}
+.hotspot.exit .hotspot-label { border-color: var(--chrome); }
+.hotspot.exit { cursor: pointer; }
+
+.room-panel {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 72px;
+  padding: 6px 14px;
+  background: var(--panel);
+  color: var(--panel-ink);
+  border-top: 3px solid var(--chrome);
+  cursor: default;
+}
+.room-panel-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+.room-name {
+  color: var(--chrome);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.room-object-name {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.room-panel .scene-text { font-size: 12px; line-height: 1.4; }
+
 /* ---- Settings ---- */
 .setting-row {
   display: flex;

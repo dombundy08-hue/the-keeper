@@ -27,6 +27,11 @@ window.ASSETS = {
     ep1_s06: { file: 'assets/audio/ep1_s06.mp3', approxSeconds: 6 },
     ep1_s07: { file: 'assets/audio/ep1_s07.mp3', approxSeconds: 8 },
     ep1_s08: { file: 'assets/audio/ep1_s08.mp3', approxSeconds: 9 },
-    ep1_s09: { file: 'assets/audio/ep1_s09.mp3', approxSeconds: 5 }
+    ep1_s09: { file: 'assets/audio/ep1_s09.mp3', approxSeconds: 5 },
+    ep1_s10: { file: 'assets/audio/ep1_s10.mp3', approxSeconds: 8 },
+    ep1_s11: { file: 'assets/audio/ep1_s11.mp3', approxSeconds: 8 },
+    ep1_s12: { file: 'assets/audio/ep1_s12.mp3', approxSeconds: 9 },
+    loft_frames_look:    { file: 'assets/audio/loft_frames_look.mp3',    approxSeconds: 7 },
+    loft_frames_anomaly: { file: 'assets/audio/loft_frames_anomaly.mp3', approxSeconds: 5 }
   }
 };

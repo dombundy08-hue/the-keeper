@@ -194,7 +194,7 @@ CH.scenes = (function () {
       }
       if (next.room) {
         CH.audio.stop();
-        CH.screens.notYet('The room "' + next.room + '" is not built yet (milestone 3).');
+        CH.rooms.enter(next.room);
         return;
       }
       if (next.puzzle) {

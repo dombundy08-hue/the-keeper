@@ -115,6 +115,33 @@ window.STORY = {
           text: "You know a room with a low white wall in it. Go and look at it properly.",
           effect: null,
           next: { room: 'loft' }
+        },
+        {
+          id: 'ep1_s10',
+          art: 'studio_warm',
+          audio: 'ep1_s10',
+          speaker: 'THE KEEPER',
+          text: "... You found it. Ha. Of course you found it. I knew you would. I... hm. Well done. Truly.",
+          effect: null,
+          next: 'ep1_s11'
+        },
+        {
+          id: 'ep1_s11',
+          art: 'studio_warm',
+          audio: 'ep1_s11',
+          speaker: 'THE KEEPER',
+          text: "TODO: author input required — the Keeper gives the first real-world code here, and says where in the house to use it.",
+          effect: null,
+          next: 'ep1_s12'
+        },
+        {
+          id: 'ep1_s12',
+          art: 'studio_warm',
+          audio: 'ep1_s12',
+          speaker: 'THE KEEPER',
+          text: "When you find what it opens, it will have words for me. Come back and tell me the words. I will be here. I am always here.",
+          effect: null,
+          next: { end: true }
         }
       ]
     }
