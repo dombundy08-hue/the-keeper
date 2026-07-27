@@ -1,11 +1,57 @@
-/* Curiosity Hour engine — scene player core.
-   Milestone 1: look up scenes by id, render text, advance, autosave.
-   Typewriter, audio, and subtitles arrive in milestone 2. */
+/* Curiosity Hour engine — scene player.
+   Typewriter reveal (click/space/Enter skips to full text, then advances),
+   one audio line per scene, subtitles always on — the text panel IS the
+   subtitle. Respects prefers-reduced-motion and the text speed setting. */
 
 window.CH = window.CH || {};
 
 CH.scenes = (function () {
 
+  /* ---- typewriter ---- */
+  var typer = { timer: null, full: '', active: false };
+
+  function typeDelayMs() {
+    if (window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return 0;
+    }
+    var speed = CH.state.get().settings.textSpeed;
+    if (speed === 'instant') return 0;
+    if (speed === 'slow') return 55;
+    if (speed === 'fast') return 12;
+    return 28; /* normal */
+  }
+
+  function stopTyping() {
+    if (typer.timer) { clearInterval(typer.timer); typer.timer = null; }
+    typer.active = false;
+  }
+
+  function startTyping(text) {
+    stopTyping();
+    var el = document.getElementById('scene-text');
+    var delay = typeDelayMs();
+    typer.full = text;
+    if (delay === 0) {
+      el.textContent = text;
+      return;
+    }
+    el.textContent = '';
+    var pos = 0;
+    typer.active = true;
+    typer.timer = setInterval(function () {
+      pos++;
+      el.textContent = typer.full.slice(0, pos);
+      if (pos >= typer.full.length) stopTyping();
+    }, delay);
+  }
+
+  function finishTyping() {
+    stopTyping();
+    document.getElementById('scene-text').textContent = typer.full;
+  }
+
+  /* ---- lookup ---- */
   function findChapter(chapterId) {
     var chapters = (window.STORY && window.STORY.chapters) || [];
     for (var i = 0; i < chapters.length; i++) {
@@ -22,23 +68,45 @@ CH.scenes = (function () {
     return null;
   }
 
-  function render(chapter, scene) {
-    document.body.setAttribute('data-era', chapter.era || 'warm');
-
-    var speakerEl = document.getElementById('scene-speaker');
-    var textEl = document.getElementById('scene-text');
+  /* ---- art ---- */
+  function renderArt(artId) {
     var artEl = document.getElementById('scene-art');
+    artEl.innerHTML = '';
+    var entry = artId && window.ASSETS && window.ASSETS.art && window.ASSETS.art[artId];
+    if (!entry) {
+      artEl.textContent = artId ? '[ ' + artId + ' ]' : '';
+      return;
+    }
+    var img = document.createElement('img');
+    img.alt = entry.alt || '';
+    img.width = entry.w || 640;
+    img.height = entry.h || 360;
+    img.addEventListener('error', function () {
+      /* Missing file: placeholder, never block (constraint 9). */
+      artEl.innerHTML = '';
+      artEl.textContent = '[ ' + artId + ' ]';
+    });
+    img.src = entry.file;
+    artEl.appendChild(img);
+  }
 
-    speakerEl.textContent = scene.speaker || '';
-    textEl.textContent = scene.text || '';
-
-    /* Real art arrives with the asset pass; the placeholder names what
-       should be here so a missing image is diagnosable, not blank. */
-    artEl.textContent = scene.art ? '[ ' + scene.art + ' ]' : '';
+  /* ---- render ---- */
+  function render(chapter, scene, opts) {
+    opts = opts || {};
+    document.body.setAttribute('data-era', chapter.era || 'warm');
+    document.getElementById('scene-speaker').textContent = scene.speaker || '';
+    renderArt(scene.art);
+    if (opts.quiet) {
+      /* Returning from the menu: full text, no replayed audio. */
+      stopTyping();
+      document.getElementById('scene-text').textContent = scene.text || '';
+    } else {
+      startTyping(scene.text || '');
+      CH.audio.playLine(scene.audio);
+    }
   }
 
   return {
-    /* Start a chapter from its first scene. */
     startChapter: function (chapterId) {
       var chapter = findChapter(chapterId);
       if (!chapter || !chapter.scenes || !chapter.scenes.length) {
@@ -51,8 +119,7 @@ CH.scenes = (function () {
       this.show(chapterId, chapter.scenes[0].id);
     },
 
-    /* Show a specific scene and autosave the position. */
-    show: function (chapterId, sceneId) {
+    show: function (chapterId, sceneId, opts) {
       var chapter = findChapter(chapterId);
       var scene = findScene(chapter, sceneId);
       if (!scene) {
@@ -63,24 +130,29 @@ CH.scenes = (function () {
         );
         return;
       }
+      CH.audio.ensureChapter(chapter);
+
       var d = CH.state.get();
       d.chapter = chapterId;
       d.scene = sceneId;
       d.screen = 'scene';
       CH.state.save();
 
-      render(chapter, scene);
+      render(chapter, scene, opts);
       CH.screens.show('scene');
     },
 
-    /* Resume from wherever the save left off. */
     resume: function () {
       var d = CH.state.get();
-      if (d.chapter && d.scene) {
-        this.show(d.chapter, d.scene);
-      } else {
-        this.startFirstChapter();
-      }
+      if (d.chapter && d.scene) this.show(d.chapter, d.scene);
+      else this.startFirstChapter();
+    },
+
+    /* Re-show the current scene after the menu, without restarting it. */
+    backToScene: function () {
+      var d = CH.state.get();
+      if (d.chapter && d.scene) this.show(d.chapter, d.scene, { quiet: true });
+      else CH.screens.show('title');
     },
 
     startFirstChapter: function () {
@@ -95,20 +167,24 @@ CH.scenes = (function () {
       this.startChapter(chapters[0].id);
     },
 
-    /* Advance past the current scene by following its `next`.
-       `next` is one of: 'scene_id', { room: 'id' }, { puzzle: 'ID' },
-       { end: true }, or null (treated as end of chapter). */
+    /* The one input verb on a scene: skip the typewriter if it is
+       running, otherwise advance to whatever comes next. */
+    skipOrAdvance: function () {
+      if (typer.active) { finishTyping(); return; }
+      this.advance();
+    },
+
     advance: function () {
       var d = CH.state.get();
       var chapter = findChapter(d.chapter);
       var scene = findScene(chapter, d.scene);
       if (!scene) return;
 
+      stopTyping();
       var next = scene.next;
 
       if (next == null || next.end) {
-        /* End of the line for milestone 1: back to the title.
-           Later milestones route this into chapter transitions. */
+        CH.audio.stop();
         CH.screens.show('title');
         return;
       }
@@ -117,12 +193,12 @@ CH.scenes = (function () {
         return;
       }
       if (next.room) {
-        /* Room view is milestone 3. Park politely rather than crash. */
+        CH.audio.stop();
         CH.screens.notYet('The room "' + next.room + '" is not built yet (milestone 3).');
         return;
       }
       if (next.puzzle) {
-        /* Puzzle screen is milestone 4. */
+        CH.audio.stop();
         CH.screens.notYet('The puzzle "' + next.puzzle + '" is not built yet (milestone 4).');
         return;
       }

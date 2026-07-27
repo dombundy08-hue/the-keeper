@@ -32,6 +32,7 @@ window.onerror = function (message, source, line) {
           <button id="btn-continue" class="menu-btn" hidden>Continue</button>
           <button id="btn-code" class="menu-btn">Enter a code</button>
           <button id="btn-key" class="menu-btn">Keeper's Key</button>
+          <button id="btn-settings" class="menu-btn">Settings</button>
         </div>
       </div>
     </section>
@@ -85,6 +86,36 @@ window.onerror = function (message, source, line) {
       </div>
     </section>
 
+    <!-- Settings (also the in-game menu; Esc opens it from a scene) -->
+    <section class="screen" id="screen-settings" hidden>
+      <div class="panel">
+        <h2>Settings</h2>
+        <div class="setting-row">
+          <label for="set-volume">Volume</label>
+          <input id="set-volume" type="range" min="0" max="100" step="5">
+        </div>
+        <div class="setting-row">
+          <label for="set-mute">Mute all sound</label>
+          <input id="set-mute" type="checkbox">
+        </div>
+        <div class="setting-row">
+          <label for="set-speed">Text speed</label>
+          <select id="set-speed">
+            <option value="slow">Slow</option>
+            <option value="normal">Normal</option>
+            <option value="fast">Fast</option>
+            <option value="instant">Instant</option>
+          </select>
+        </div>
+        <p id="settings-feedback" class="feedback" role="status"></p>
+        <div class="row">
+          <button id="btn-settings-back" class="menu-btn">Back</button>
+          <button id="btn-settings-title" class="menu-btn">Title screen</button>
+          <button id="btn-restart" class="menu-btn danger">Restart the game</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Plain-English error screen. Constraint 8: never a white screen. -->
     <section class="screen" id="screen-error" hidden>
       <div class="panel error-panel">
@@ -101,6 +132,7 @@ window.onerror = function (message, source, line) {
 <script src="src/engine/hash.js"></script>
 <script src="src/engine/state.js"></script>
 <script src="src/engine/key.js"></script>
+<script src="src/engine/audio.js"></script>
 <script src="src/engine/scenes.js"></script>
 <script src="src/engine/screens.js"></script>
 

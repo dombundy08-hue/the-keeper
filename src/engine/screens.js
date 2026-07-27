@@ -1,12 +1,12 @@
-/* Curiosity Hour engine — top-level screen router and the screens that
-   exist in milestone 1: title, scene shell, code entry stub, Keeper's Key,
-   and the plain-English error screen. */
+/* Curiosity Hour engine — top-level screen router: title, scene, code
+   entry, Keeper's Key, settings, and the plain-English error screen. */
 
 window.CH = window.CH || {};
 
 CH.screens = (function () {
-  var NAMES = ['title', 'scene', 'code', 'key', 'error'];
+  var NAMES = ['title', 'scene', 'code', 'key', 'settings', 'error'];
   var current = null;
+  var settingsReturnTo = 'title';   /* where Back goes from the menu */
 
   function el(id) { return document.getElementById(id); }
 
@@ -22,6 +22,18 @@ CH.screens = (function () {
     if (fb) { fb.textContent = ''; fb.className = 'feedback'; }
   }
 
+  function refreshSettings() {
+    var s = CH.state.get().settings;
+    el('set-volume').value = String(Math.round(s.volume * 100));
+    el('set-mute').checked = !!s.muted;
+    el('set-speed').value = s.textSpeed;
+  }
+
+  function leaveSettings() {
+    if (settingsReturnTo === 'scene') CH.scenes.backToScene();
+    else CH.screens.show('title');
+  }
+
   return {
     show: function (name) {
       for (var i = 0; i < NAMES.length; i++) {
@@ -35,19 +47,24 @@ CH.screens = (function () {
         refreshTitle();
       }
       if (name === 'key') refreshKeyScreen();
+      if (name === 'settings') refreshSettings();
 
-      /* Move focus somewhere sensible for keyboard players. */
       var focusTarget = {
         title: 'btn-begin',
         code: 'code-input',
-        key: 'key-input'
+        key: 'key-input',
+        settings: 'set-volume'
       }[name];
       if (focusTarget && el(focusTarget)) el(focusTarget).focus();
     },
 
     currentScreen: function () { return current; },
 
-    /* A content mistake, reported kindly. Never a white screen. */
+    openSettings: function (returnTo) {
+      settingsReturnTo = returnTo || 'title';
+      this.show('settings');
+    },
+
     contentError: function (what, how) {
       var report = el('error-report');
       if (report) {
@@ -65,15 +82,14 @@ CH.screens = (function () {
       this.show('error');
     },
 
-    /* Milestone scaffolding: a friendly dead end for unbuilt features. */
     notYet: function (message) {
       this.contentError('Under construction', message);
     },
 
-    /* Wire every button once at boot. */
     init: function () {
       var self = this;
 
+      /* Title */
       el('btn-begin').addEventListener('click', function () {
         CH.state.set(CH.state.fresh());
         CH.scenes.startFirstChapter();
@@ -84,13 +100,16 @@ CH.screens = (function () {
       });
       el('btn-code').addEventListener('click', function () { self.show('code'); });
       el('btn-key').addEventListener('click', function () { self.show('key'); });
-
-      /* Scene: click anywhere or Enter/Space advances. */
-      el('screen-scene').addEventListener('click', function () {
-        CH.scenes.advance();
+      el('btn-settings').addEventListener('click', function () {
+        self.openSettings('title');
       });
 
-      /* Code entry (full gate logic lands with the puzzle milestone). */
+      /* Scene: click skips the typewriter, then advances. */
+      el('screen-scene').addEventListener('click', function () {
+        CH.scenes.skipOrAdvance();
+      });
+
+      /* Code entry (real gate logic lands in milestone 4). */
       el('btn-code-back').addEventListener('click', function () { self.show('title'); });
       el('btn-code-submit').addEventListener('click', function () {
         var fb = el('code-feedback');
@@ -106,8 +125,6 @@ CH.screens = (function () {
         var copied = false;
         try { copied = document.execCommand('copy'); } catch (e) {}
         if (!copied && navigator.clipboard && navigator.clipboard.writeText) {
-          /* clipboard API needs a secure context; on file:// the
-             execCommand path above is the one that works. */
           navigator.clipboard.writeText(out.value);
           copied = true;
         }
@@ -116,9 +133,7 @@ CH.screens = (function () {
                                 : 'Could not copy — select the key and copy it yourself.';
         fb.className = 'feedback ' + (copied ? 'good' : 'bad');
       });
-      el('btn-key-print').addEventListener('click', function () {
-        window.print();
-      });
+      el('btn-key-print').addEventListener('click', function () { window.print(); });
       el('btn-key-load').addEventListener('click', function () {
         var result = CH.key.decode(el('key-input').value);
         var fb = el('key-feedback');
@@ -133,18 +148,59 @@ CH.screens = (function () {
         CH.scenes.resume();
       });
 
-      /* Global keyboard: Enter/Space advance scenes, Esc backs out to title. */
+      /* Settings */
+      el('set-volume').addEventListener('input', function () {
+        var s = CH.state.get().settings;
+        s.volume = Number(this.value) / 100;
+        CH.state.save();
+        CH.audio.applySettings();
+      });
+      el('set-mute').addEventListener('change', function () {
+        var s = CH.state.get().settings;
+        s.muted = this.checked;
+        CH.state.save();
+        CH.audio.applySettings();
+      });
+      el('set-speed').addEventListener('change', function () {
+        var s = CH.state.get().settings;
+        s.textSpeed = this.value;
+        CH.state.save();
+      });
+      el('btn-settings-back').addEventListener('click', leaveSettings);
+      el('btn-settings-title').addEventListener('click', function () {
+        CH.audio.stop();
+        self.show('title');
+      });
+      el('btn-restart').addEventListener('click', function () {
+        var fb = el('settings-feedback');
+        if (!el('btn-restart').dataset.armed) {
+          el('btn-restart').dataset.armed = '1';
+          el('btn-restart').textContent = 'Really restart? This erases everything';
+          fb.textContent = 'Tip: save your Keeper\'s Key first if you might change your mind.';
+          return;
+        }
+        delete el('btn-restart').dataset.armed;
+        el('btn-restart').textContent = 'Restart the game';
+        fb.textContent = '';
+        CH.audio.stop();
+        CH.state.reset();
+        self.show('title');
+      });
+
+      /* Global keyboard */
       document.addEventListener('keydown', function (ev) {
         var tag = (ev.target && ev.target.tagName) || '';
-        var typing = tag === 'INPUT' || tag === 'TEXTAREA';
+        var typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
 
         if (current === 'scene' && !typing &&
             (ev.key === 'Enter' || ev.key === ' ')) {
           ev.preventDefault();
-          CH.scenes.advance();
+          CH.scenes.skipOrAdvance();
         }
-        if (ev.key === 'Escape' && current !== 'title' && current !== 'error') {
-          self.show('title');
+        if (ev.key === 'Escape') {
+          if (current === 'scene') self.openSettings('scene');
+          else if (current === 'settings') leaveSettings();
+          else if (current !== 'title' && current !== 'error') self.show('title');
         }
         if (current === 'code' && typing && ev.key === 'Enter') {
           el('btn-code-submit').click();
