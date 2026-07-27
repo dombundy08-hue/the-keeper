@@ -1,22 +1,29 @@
-/* Curiosity Hour engine — UI layer: custom pixel cursor + UI sounds.
+/* Curiosity Hour engine — UI layer: custom pixel cursor, UI sounds,
+   audio unlock, and the title wordmark glitch.
 
-   Cursor: the OS pointer is hidden across the whole game surface
-   (cursor: none in CSS); a pixel-art cursor drawn from the maps below
-   tracks the real pointer on pointermove. It lives INSIDE the scaled
-   stage, so it pixelates and scales with everything else. Two states:
-   the pointing hand everywhere, the magnifier in room view.
+   Cursor: fixed-position, driven ONLY by pointer client coordinates
+   plus window math — no element rects involved, so there is nothing
+   to go stale or divide by zero. The sprite scales with the same
+   integer factor as the stage. Hand everywhere, magnifier in rooms.
 
-   Sounds: hover (pointer enters a button, or keyboard focus reaches
-   one), select (activate), back (escape / backing out), denied
-   (rejected code). Keyboard players hear exactly what mouse players
-   hear. Everything obeys global volume + mute — and in the notebook
-   era, ALL of it goes silent. That silence is deliberate. */
+   Sounds: hover (once per button entry, keyboard focus included, half
+   volume), select, back, denied. Browsers block audio until the page
+   receives a real user gesture, so the first pointerdown/keydown of
+   the session primes every UI sound element (play+pause, muted) —
+   this matters on Safari, which unlocks per element. The very first
+   hover of a session, before any gesture, stays silent; that is a
+   browser rule, not a bug.
+
+   Wordmark glitch: while the title screen is mounted (and not in the
+   notebook era), HOUR becomes HORROR for ~150ms every 30s ± 4s, with
+   a quiet static burst. Cosmetic only — nothing gates on it. The
+   hand-authored bugflicker in story.js is a separate thing. */
 
 window.CH = window.CH || {};
 
 CH.ui = (function () {
 
-  var PX = 2;   /* logical pixels per sprite cell, in 640x360 space */
+  var PX = 2;   /* logical pixels per sprite cell */
 
   var COLORS = {
     o: '#14110F',                    /* ink outline */
@@ -27,7 +34,7 @@ CH.ui = (function () {
 
   var SPRITES = {
     hand: {
-      hotspot: [3, 0],               /* fingertip, in cells */
+      hotspot: [3, 0],
       map: [
         '...oo....',
         '..occo...',
@@ -43,7 +50,7 @@ CH.ui = (function () {
       ]
     },
     magnifier: {
-      hotspot: [4, 4],               /* lens centre, in cells */
+      hotspot: [4, 4],
       map: [
         '..oooo....',
         '.oggggo...',
@@ -73,30 +80,33 @@ CH.ui = (function () {
 
   var cursorEl = null;
   var mode = 'hand';
+  var hotX = 0, hotY = 0;
 
   function applySprite() {
     var sprite = SPRITES[mode];
     cursorEl.style.boxShadow = shadowsFor(sprite);
-    cursorEl.dataset.hx = sprite.hotspot[0] * PX;
-    cursorEl.dataset.hy = sprite.hotspot[1] * PX;
+    hotX = sprite.hotspot[0] * PX;
+    hotY = sprite.hotspot[1] * PX;
+  }
+
+  /* Same integer scale the stage uses — pure window math, no DOM reads. */
+  function stageScale() {
+    var s = Math.floor(Math.min(window.innerWidth / 640, window.innerHeight / 360));
+    return s < 1 ? 1 : s;
   }
 
   function moveCursor(ev) {
-    var stage = document.getElementById('stage');
-    var rect = stage.getBoundingClientRect();
-    if (!rect.width) return;   /* window not laid out yet */
-    /* convert window coords into 640x360 stage space */
-    var scale = rect.width / 640;
-    var x = (ev.clientX - rect.left) / scale - Number(cursorEl.dataset.hx);
-    var y = (ev.clientY - rect.top) / scale - Number(cursorEl.dataset.hy);
-    cursorEl.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+    var s = stageScale();
+    cursorEl.style.transform =
+      'translate(' + (ev.clientX - hotX * s) + 'px, ' +
+                     (ev.clientY - hotY * s) + 'px) scale(' + s + ')';
     cursorEl.style.display = 'block';
   }
 
   /* ---- sounds ---- */
 
-  var lastHover = null;     /* button the pointer is currently inside */
-  var lastKeyNav = 0;       /* when Tab/arrows were last pressed */
+  var lastHover = null;
+  var lastKeyNav = 0;
 
   function silent() {
     return document.body.getAttribute('data-era') === 'notebook';
@@ -104,6 +114,39 @@ CH.ui = (function () {
   function play(id, scale) {
     if (silent()) return;
     CH.audio.playUi(id, scale);
+  }
+
+  /* ---- title wordmark glitch ---- */
+
+  var glitchTimer = null;
+  var glitchRevert = null;
+
+  function reducedMotion() {
+    return window.matchMedia &&
+           window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function revertWordmark() {
+    var span = document.getElementById('wordmark-hour');
+    if (span) {
+      span.textContent = 'HOUR';
+      span.classList.remove('glitching');
+    }
+  }
+
+  function fireGlitch() {
+    var span = document.getElementById('wordmark-hour');
+    if (span && !silent() && !reducedMotion()) {
+      span.textContent = 'HORROR';
+      span.classList.add('glitching');
+      CH.audio.playOverlay('bug_static_short', 0);
+      glitchRevert = setTimeout(revertWordmark, 150);
+    }
+    scheduleGlitch();   /* jittered: a metronome reads as a clock */
+  }
+
+  function scheduleGlitch() {
+    glitchTimer = setTimeout(fireGlitch, 26000 + Math.random() * 8000);
   }
 
   return {
@@ -118,25 +161,49 @@ CH.ui = (function () {
     select: function () { play('ui_select'); },
     denied: function () { play('ui_denied'); },
 
+    /* title-screen mount/unmount hooks (called by screens.show) */
+    startTitleGlitch: function () {
+      if (!glitchTimer) scheduleGlitch();
+    },
+    stopTitleGlitch: function () {
+      if (glitchTimer) { clearTimeout(glitchTimer); glitchTimer = null; }
+      if (glitchRevert) { clearTimeout(glitchRevert); glitchRevert = null; }
+      revertWordmark();
+    },
+    /* test hook: fire the glitch immediately */
+    glitchNow: fireGlitch,
+
     init: function () {
-      /* cursor */
+      /* cursor — fixed position, above everything, ignores hit testing */
       cursorEl = document.createElement('div');
       cursorEl.id = 'cursor';
       cursorEl.setAttribute('aria-hidden', 'true');
-      document.getElementById('stage').appendChild(cursorEl);
+      document.body.appendChild(cursorEl);
       applySprite();
       document.addEventListener('pointermove', moveCursor);
       document.addEventListener('pointerdown', moveCursor);
-      document.documentElement.addEventListener('pointerleave', function () {
+      document.documentElement.addEventListener('mouseleave', function () {
         cursorEl.style.display = 'none';
       });
+
+      /* audio unlock on the first real gesture of the session */
+      var unlocked = false;
+      function firstGesture() {
+        if (unlocked) return;
+        unlocked = true;
+        CH.audio.unlock();
+        document.removeEventListener('pointerdown', firstGesture, true);
+        document.removeEventListener('keydown', firstGesture, true);
+      }
+      document.addEventListener('pointerdown', firstGesture, true);
+      document.addEventListener('keydown', firstGesture, true);
 
       /* hover: once per button entry, never while moving inside one */
       document.addEventListener('pointerover', function (ev) {
         var btn = ev.target && ev.target.closest ? ev.target.closest('button') : null;
         if (btn && btn !== lastHover) {
           lastHover = btn;
-          play('ui_hover', 0.5);   /* half volume: it fires the most */
+          play('ui_hover', 0.5);
         }
       });
       document.addEventListener('pointerout', function (ev) {
@@ -145,8 +212,7 @@ CH.ui = (function () {
         }
       });
 
-      /* keyboard focus counts as hover — but only when focus moved by
-         keys, so programmatic focus on screen changes stays quiet */
+      /* keyboard focus counts as hover — only when moved by keys */
       document.addEventListener('keydown', function (ev) {
         if (ev.key === 'Tab' || ev.key.indexOf('Arrow') === 0) {
           lastKeyNav = performance.now();
@@ -160,9 +226,8 @@ CH.ui = (function () {
         }
       });
 
-      /* activation: click (mouse or Enter-on-button both land here).
-         Capture phase, so the sound reflects the era the click happened
-         in — not the era the button switches to. */
+      /* activation: capture phase, so the sound reflects the era the
+         click happened in, not the era the button switches to */
       document.addEventListener('click', function (ev) {
         var btn = ev.target && ev.target.closest ? ev.target.closest('button') : null;
         if (!btn) return;

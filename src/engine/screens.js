@@ -63,10 +63,21 @@ CH.screens = (function () {
         key: 'key-input',
         settings: 'set-volume'
       }[name];
-      if (focusTarget && el(focusTarget)) el(focusTarget).focus();
+      if (focusTarget && el(focusTarget)) {
+        el(focusTarget).focus();
+      } else if (document.activeElement && document.activeElement.blur) {
+        /* never leave focus on a control from the outgoing screen —
+           Enter must act on the new screen, not the old button */
+        document.activeElement.blur();
+      }
 
       /* magnifier in rooms, pointing hand everywhere else */
-      if (CH.ui) CH.ui.setMode(name === 'room' ? 'magnifier' : 'hand');
+      if (CH.ui) {
+        CH.ui.setMode(name === 'room' ? 'magnifier' : 'hand');
+        /* the ambient wordmark glitch lives and dies with the title */
+        if (name === 'title') CH.ui.startTitleGlitch();
+        else CH.ui.stopTitleGlitch();
+      }
     },
 
     currentScreen: function () { return current; },

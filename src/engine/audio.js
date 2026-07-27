@@ -92,6 +92,30 @@ CH.audio = (function () {
       }
     },
 
+    /* Prime the short-sound elements on the first user gesture so
+       autoplay policy cannot block later hovers. Safari unlocks
+       per element, so each one gets its own muted play+pause. */
+    unlock: function () {
+      var ids = ['ui_hover', 'ui_select', 'ui_back', 'ui_denied',
+                 'bug_static_short', 'bug_static_long'];
+      for (var i = 0; i < ids.length; i++) {
+        (function (el) {
+          if (!el) return;
+          try {
+            el.muted = true;
+            var p = el.play();
+            if (p && p.then) {
+              p.then(function () {
+                el.pause();
+                el.currentTime = 0;
+                el.muted = false;
+              }).catch(function () { el.muted = false; });
+            }
+          } catch (e) {}
+        })(getElement(ids[i]));
+      }
+    },
+
     /* Short UI feedback sound. Never interrupts the voice line;
        respects global volume and mute; failures stay silent. */
     playUi: function (id, volumeScale) {

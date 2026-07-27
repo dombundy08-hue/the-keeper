@@ -45,6 +45,11 @@ body[data-era="notebook"] {
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* THE stacking rule: hidden always wins, over any specificity.
+   (Bug: #screen-title { display:flex } outranked .screen[hidden] and
+   kept the title mounted under every other screen. Never again.) */
+[hidden] { display: none !important; }
+
 html, body {
   height: 100%;
   background: var(--bg);
@@ -87,7 +92,7 @@ code, .key-text, .big-input {
   position: absolute;
   inset: 0;
 }
-.screen[hidden] { display: none; }
+/* (covered by the global [hidden] rule above) */
 
 /* ---- Focus: always visible (keyboard-only playthrough is an acceptance test) ---- */
 button:focus-visible,
@@ -99,15 +104,17 @@ textarea:focus-visible {
 
 /* ---- Custom pixel cursor (the OS pointer is hidden everywhere) ---- */
 #viewport, #viewport * { cursor: none !important; }
+body { cursor: none; }
 #cursor {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 2px;
   height: 2px;
   display: none;
   pointer-events: none;
-  z-index: 60;   /* above the chrome (10) and every screen */
+  transform-origin: 0 0;
+  z-index: 1000;   /* above everything, including the chrome */
 }
 
 /* ---- Title ---- */
@@ -146,7 +153,29 @@ body[data-era="cooling"] { --band-strength: 0.85; }
 body[data-era="cold"]    { --band-strength: 1; }
 body[data-era="notebook"] #screen-title::before { display: none; }
 
-.title-card { text-align: center; position: relative; z-index: 1; }
+/* Full-width card: HORROR overflowing the wordmark can never resize
+   the layout, because the container is already as wide as the stage. */
+.title-card { text-align: center; position: relative; z-index: 1; width: 100%; }
+.show-title { white-space: nowrap; }
+
+/* The wordmark glitch: HOUR -> HORROR, a slice shifted sideways and a
+   1px red/cyan split. 150ms, sound underneath, then gone. */
+#wordmark-hour { position: relative; display: inline-block; }
+#wordmark-hour.glitching {
+  transform: translateX(1px);
+  text-shadow: -1px 0 rgba(140, 47, 39, 0.85),
+                1px 0 rgba(182, 199, 190, 0.85),
+                2px 2px 0 var(--chrome);
+}
+#wordmark-hour.glitching::after {
+  content: 'HORROR';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  color: inherit;
+  text-shadow: inherit;
+  clip-path: inset(38% 0 34% 0);   /* a thin horizontal slice, offset */
+}
 .show-title {
   color: var(--accent);
   font-size: 40px;
