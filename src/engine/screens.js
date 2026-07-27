@@ -4,7 +4,8 @@
 window.CH = window.CH || {};
 
 CH.screens = (function () {
-  var NAMES = ['title', 'scene', 'room', 'code', 'key', 'settings', 'error'];
+  var NAMES = ['title', 'scene', 'room', 'code', 'key', 'settings',
+               'puzzle', 'override', 'error'];
   var current = null;
   var settingsReturnTo = 'title';   /* where Back goes from the menu */
 
@@ -113,12 +114,49 @@ CH.screens = (function () {
         CH.scenes.skipOrAdvance();
       });
 
-      /* Code entry (real gate logic lands in milestone 4). */
+      /* Code entry — the physical-to-digital bridge. */
       el('btn-code-back').addEventListener('click', function () { self.show('title'); });
       el('btn-code-submit').addEventListener('click', function () {
         var fb = el('code-feedback');
-        fb.textContent = 'That is not a code the Keeper knows. Check the letters again.';
-        fb.className = 'feedback bad';
+        var raw = el('code-input').value;
+        if (!raw.trim()) return;
+        if (CH.puzzles.tryCode(raw)) {
+          el('code-input').value = '';
+        } else {
+          fb.textContent = 'That is not a code the Keeper knows. Check the letters again.';
+          fb.className = 'feedback bad';
+        }
+      });
+
+      /* Puzzle screen */
+      el('btn-puzzle-submit').addEventListener('click', function () {
+        CH.puzzles.submitActive();
+      });
+      el('btn-stuck').addEventListener('click', function () { CH.puzzles.stuck(); });
+      el('btn-puzzle-back').addEventListener('click', function () {
+        var d = CH.state.get();
+        if (d.chapter && d.scene) CH.scenes.backToScene();
+        else self.show('title');
+      });
+      el('btn-puzzle-audio').addEventListener('click', function () {
+        var p = CH.puzzles.find(CH.state.get().puzzle);
+        if (p && p.audio) CH.audio.playLine(p.audio);
+      });
+
+      /* Parent override */
+      el('keyhole').addEventListener('click', function () {
+        CH.puzzles.keyholeClick();
+      });
+      el('btn-override-go').addEventListener('click', function () {
+        CH.puzzles.overrideSubmitPhrase();
+      });
+      el('btn-override-cancel').addEventListener('click', function () { self.show('title'); });
+      el('btn-override-close').addEventListener('click', function () { self.show('title'); });
+      el('btn-override-key').addEventListener('click', function () {
+        CH.puzzles.overrideExportKey();
+      });
+      el('btn-override-reset').addEventListener('click', function () {
+        CH.puzzles.overrideReset();
       });
 
       /* Keeper's Key */
@@ -209,6 +247,13 @@ CH.screens = (function () {
         }
         if (current === 'code' && typing && ev.key === 'Enter') {
           el('btn-code-submit').click();
+        }
+        if (current === 'puzzle' && typing && ev.key === 'Enter') {
+          el('btn-puzzle-submit').click();
+        }
+        if (current === 'override' && typing && ev.key === 'Enter' &&
+            ev.target.id === 'override-phrase') {
+          el('btn-override-go').click();
         }
       });
     }

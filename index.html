@@ -86,6 +86,64 @@ window.onerror = function (message, source, line) {
       </div>
     </section>
 
+    <!-- Puzzle screen: hint ladder always present -->
+    <section class="screen" id="screen-puzzle" hidden>
+      <div class="panel">
+        <h2 id="puzzle-prompt"></h2>
+        <pre id="puzzle-grid" class="puzzle-grid" hidden></pre>
+        <div id="puzzle-audio-row" class="row" hidden>
+          <button id="btn-puzzle-audio" class="menu-btn">Play the sound again</button>
+        </div>
+        <div id="puzzle-seq" hidden>
+          <p class="small">Click them in the order you think is right, then Try it.</p>
+          <p id="puzzle-seq-picked" class="seq-picked"></p>
+          <div id="puzzle-seq-items" class="row wrap"></div>
+        </div>
+        <div id="puzzle-text-row">
+          <input id="puzzle-input" class="big-input" type="text" autocomplete="off"
+                 spellcheck="false" aria-label="Your answer">
+        </div>
+        <p id="puzzle-feedback" class="feedback" role="status"></p>
+        <div class="row">
+          <button id="btn-puzzle-submit" class="menu-btn">Try it</button>
+          <button id="btn-stuck" class="menu-btn">I'm stuck</button>
+          <button id="btn-puzzle-back" class="menu-btn">Back</button>
+        </div>
+        <div id="puzzle-hints" class="puzzle-hints"></div>
+      </div>
+    </section>
+
+    <!-- Parent override (5 clicks on the keyhole; never hinted at) -->
+    <section class="screen" id="screen-override" hidden>
+      <div class="panel">
+        <div id="override-gate">
+          <h2>For grown-ups</h2>
+          <p class="small">This screen is for the person running the hunt.</p>
+          <input id="override-phrase" class="big-input" type="password"
+                 autocomplete="off" aria-label="Master phrase">
+          <p id="override-gate-feedback" class="feedback bad" role="status"></p>
+          <div class="row">
+            <button id="btn-override-go" class="menu-btn">Open</button>
+            <button id="btn-override-cancel" class="menu-btn">Back</button>
+          </div>
+        </div>
+        <div id="override-panel" hidden>
+          <h2>Keeper override</h2>
+          <h3>Jump to a chapter</h3>
+          <div id="override-chapters" class="row wrap"></div>
+          <h3>Puzzles</h3>
+          <div id="override-puzzles"></div>
+          <h3>Tools</h3>
+          <div class="row wrap">
+            <button id="btn-override-key" class="menu-btn">Export Keeper's Key</button>
+            <button id="btn-override-reset" class="menu-btn danger">Reset everything</button>
+            <button id="btn-override-close" class="menu-btn">Close</button>
+          </div>
+          <p id="override-feedback" class="feedback" role="status"></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Room view -->
     <section class="screen" id="screen-room" hidden>
       <div id="room-art" class="scene-art room-art"></div>
@@ -137,6 +195,9 @@ window.onerror = function (message, source, line) {
         <p class="small">Nothing is lost. Fix the file above and reload the page.</p>
       </div>
     </section>
+
+    <!-- The keyhole. Small, quiet, bottom-left. Five clicks. -->
+    <button id="keyhole" aria-label="keyhole">&#9906;</button>
 
   </div>
 </div>

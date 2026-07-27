@@ -16,6 +16,8 @@ CH.state = (function () {
       v: 1,                 /* save format version */
       chapter: null,        /* current chapter id, e.g. 'ep1' */
       scene: null,          /* current scene id within the chapter */
+      room: null,           /* current room id when exploring */
+      puzzle: null,         /* current puzzle id when on the puzzle screen */
       screen: 'title',      /* which top-level screen we were on */
       unlocked: [],         /* chapter ids unlocked by codes */
       solved: [],           /* puzzle ids solved */

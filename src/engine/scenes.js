@@ -144,6 +144,9 @@ CH.scenes = (function () {
 
     resume: function () {
       var d = CH.state.get();
+      /* Put the player back where the autosave left them. */
+      if (d.screen === 'room' && d.room) { CH.rooms.enter(d.room); return; }
+      if (d.screen === 'puzzle' && d.puzzle) { CH.puzzles.show(d.puzzle); return; }
       if (d.chapter && d.scene) this.show(d.chapter, d.scene);
       else this.startFirstChapter();
     },
@@ -199,7 +202,7 @@ CH.scenes = (function () {
       }
       if (next.puzzle) {
         CH.audio.stop();
-        CH.screens.notYet('The puzzle "' + next.puzzle + '" is not built yet (milestone 4).');
+        CH.puzzles.show(next.puzzle);
         return;
       }
       CH.screens.contentError(
