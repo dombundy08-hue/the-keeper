@@ -90,12 +90,12 @@ window.ROOMS = {
         id: 'loft_frames',
         name: 'Framed pictures',
         box: [180, 60, 110, 90],   /* TODO: retune hitbox */
-        audio: 'loft_frames_look',
-        look: "Three of them. He always liked the middle one best. Ask him why and he changes the subject.",
+        audio: 'ep1_loft_frames_look',
+        look: "Three of them. I always liked the middle one best. Don't ask me why, I never remember.",
         anomaly: {
           chapter: 'ep1',
-          text: "That one is crooked. It was not crooked a moment ago.",
-          audio: 'loft_frames_anomaly',
+          text: "That one is crooked. It wasn't crooked a moment ago.",
+          audio: 'ep1_loft_frames_anomaly',
           solves: 'PUZ_EP1_LOFT'
         }
       },

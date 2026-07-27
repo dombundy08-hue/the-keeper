@@ -559,6 +559,17 @@ body[data-era="cold"] .chrome-bug {
   93% { opacity: 0.3; transform: translateX(1px); }
 }
 
+/* One-shot stutter for effect: 'bugflicker' (ep1_s11). Three frames,
+   delayed so it lands mid-line. Reduced motion kills it entirely. */
+.chrome-bug.flicker-burst {
+  animation: bug-flicker-burst 0.45s steps(3, jump-none) 1.4s 1;
+}
+@keyframes bug-flicker-burst {
+  0%   { opacity: 0.06; transform: translateX(1px); }
+  50%  { opacity: 0.5;  transform: none; }
+  100% { opacity: 0.12; transform: translateX(-1px); }
+}
+
 /* tracking band: only when the signal is failing */
 .chrome-tracking { display: none; }
 body[data-era="cold"] .chrome-tracking {

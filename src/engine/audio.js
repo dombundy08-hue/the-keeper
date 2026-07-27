@@ -90,6 +90,24 @@ CH.audio = (function () {
         try { current.pause(); } catch (e) {}
         current = null;
       }
+    },
+
+    /* A short sound layered OVER the current line (the bug's static
+       burst). Never interrupts the voice; failures stay silent.
+       delayMs is presentation timing only, never a gate. */
+    playOverlay: function (id, delayMs) {
+      var el = getElement(id);
+      if (!el) return;
+      var s = CH.state.get().settings;
+      setTimeout(function () {
+        try {
+          el.volume = s.volume * 0.6;
+          el.muted = !!s.muted;
+          el.currentTime = 0;
+          var p = el.play();
+          if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
+      }, delayMs || 0);
     }
   };
 })();

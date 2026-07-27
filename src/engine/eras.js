@@ -37,6 +37,19 @@ CH.eras = (function () {
       this.apply(eraForChapter(chapterId));
     },
 
+    /* One-shot channel-bug stutter (Episode 1's first hardware lie).
+       The CSS animation carries its own delay so it lands mid-line;
+       prefers-reduced-motion kills the visual, the static still plays. */
+    bugFlicker: function () {
+      var bug = document.getElementById('chrome-bug');
+      if (!bug) return;
+      bug.classList.remove('flicker-burst');
+      /* force a reflow so re-adding the class restarts the animation */
+      void bug.offsetWidth;
+      bug.classList.add('flicker-burst');
+      CH.audio.playOverlay('bug_static_short', 1400);
+    },
+
     /* The title screen wears the era of the furthest chapter the
        player has unlocked — the menu itself decays as the hunt goes. */
     applyForTitle: function () {

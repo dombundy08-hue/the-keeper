@@ -33,12 +33,13 @@ window.STORY = {
       unlockedBy: null,          /* first episode is always open */
       era: 'warm',
       scenes: [
+        /* ---- Studio, open ---- */
         {
           id: 'ep1_s01',
           art: 'studio_warm',
           audio: 'ep1_s01',
           speaker: 'THE KEEPER',
-          text: "Hello, hello! Welcome to Curiosity Hour. I am the Keeper. That is not my name. It is my job.",
+          text: "Hello, hello, hello! Come in. Sit down. You found us.",
           effect: null,
           next: 'ep1_s02'
         },
@@ -47,7 +48,7 @@ window.STORY = {
           art: 'studio_warm',
           audio: 'ep1_s02',
           speaker: 'THE KEEPER',
-          text: "Say hello, audience! ... Wonderful. You are my favourite audience. Do not tell the other ones.",
+          text: "I'm the Keeper. This is Curiosity Hour. It's a show about looking at ordinary things until they stop being ordinary.",
           effect: null,
           next: 'ep1_s03'
         },
@@ -56,16 +57,17 @@ window.STORY = {
           art: 'studio_warm',
           audio: 'ep1_s03',
           speaker: 'THE KEEPER',
-          text: "Today I am going to teach you the most important thing I know. It is called the method.",
+          text: "That's the whole show. People tell me that can't be the whole show. And I tell them — you'd be amazed.",
           effect: null,
           next: 'ep1_s04'
         },
+        /* ---- The method ---- */
         {
           id: 'ep1_s04',
           art: 'studio_warm',
           audio: 'ep1_s04',
           speaker: 'THE KEEPER',
-          text: "The method is easy. You do not need tools. You do not need to be big. You only need your eyes.",
+          text: "Today I'm teaching you the method. Everyone who has ever watched this show has learned it. Every single one of you.",
           effect: null,
           next: 'ep1_s05'
         },
@@ -74,7 +76,7 @@ window.STORY = {
           art: 'studio_warm',
           audio: 'ep1_s05',
           speaker: 'THE KEEPER',
-          text: "Pick a thing you see every single day. A cup. A door. A picture on a wall. Now look at it like you have never seen it before.",
+          text: "Here it is. Ready? Look at something you have seen a thousand times. And then look at it again.",
           effect: null,
           next: 'ep1_s06'
         },
@@ -83,17 +85,17 @@ window.STORY = {
           art: 'studio_warm',
           audio: 'ep1_s06',
           speaker: 'THE KEEPER',
-          /* from the spec */
-          text: "Look again. The secret is never hiding. It is just waiting to be noticed.",
+          text: "Look again. The secret's never hiding. It's just waiting to be noticed.",
           effect: null,
           next: 'ep1_s07'
         },
+        /* ---- Demonstration ---- */
         {
           id: 'ep1_s07',
           art: 'studio_warm',
           audio: 'ep1_s07',
           speaker: 'THE KEEPER',
-          text: "Because every room remembers. Every room keeps— ... ha! Where was I? The lights are very bright today.",
+          text: "Take this desk. I have been sitting behind this desk for —",
           effect: null,
           next: 'ep1_s08'
         },
@@ -102,7 +104,9 @@ window.STORY = {
           art: 'studio_warm',
           audio: 'ep1_s08',
           speaker: 'THE KEEPER',
-          text: "Here is your homework. Yes, homework! Do not groan. This kind is fun. Somewhere near you, one thing is wrong. Not broken. Just wrong.",
+          /* the first crack — the recording carries a full second of
+             silence before the line; do not trim it */
+          text: "— well. A while now.",
           effect: null,
           next: 'ep1_s09'
         },
@@ -111,37 +115,113 @@ window.STORY = {
           art: 'studio_warm',
           audio: 'ep1_s09',
           speaker: 'THE KEEPER',
-          /* from the spec */
-          text: "You know a room with a low white wall in it. Go and look at it properly.",
+          text: "Three drawers. Always been three drawers.",
           effect: null,
-          next: { room: 'loft' }
+          next: 'ep1_s10'
         },
         {
           id: 'ep1_s10',
           art: 'studio_warm',
           audio: 'ep1_s10',
           speaker: 'THE KEEPER',
-          text: "... You found it. Ha. Of course you found it. I knew you would. I... hm. Well done. Truly.",
+          text: "Count them next time.",
           effect: null,
           next: 'ep1_s11'
         },
+        /* ---- The turn ---- */
         {
           id: 'ep1_s11',
           art: 'studio_warm',
           audio: 'ep1_s11',
           speaker: 'THE KEEPER',
-          text: "TODO: author input required — the Keeper gives the first real-world code here, and says where in the house to use it.",
-          effect: null,
+          text: "Now, don't be nervous. There is nothing scary about this. It's just paying attention.",
+          effect: 'bugflicker',   /* channel bug stutters mid-line */
           next: 'ep1_s12'
         },
+        /* ---- Homework ---- */
         {
           id: 'ep1_s12',
           art: 'studio_warm',
           audio: 'ep1_s12',
           speaker: 'THE KEEPER',
-          text: "When you find what it opens, it will have words for me. Come back and tell me the words. I will be here. I am always here.",
+          text: "Which brings us to your homework.",
           effect: null,
-          next: { end: true }
+          next: 'ep1_s13'
+        },
+        {
+          id: 'ep1_s13',
+          art: 'studio_warm',
+          audio: 'ep1_s13',
+          speaker: 'THE KEEPER',
+          text: "There's a room in your house with a low white wall in the middle of it. A wall that stops before it reaches the ceiling.",
+          effect: null,
+          next: 'ep1_s14'
+        },
+        {
+          id: 'ep1_s14',
+          art: 'studio_warm',
+          audio: 'ep1_s14',
+          speaker: 'THE KEEPER',
+          text: "Go and stand where you always stand. And then look again.",
+          effect: null,
+          next: { room: 'loft' }
+        },
+        /* ---- Studio, return (reached by finding the crooked frame) ---- */
+        {
+          id: 'ep1_s15',
+          art: 'studio_warm',
+          audio: 'ep1_s15',
+          speaker: 'THE KEEPER',
+          /* the recording holds two full seconds of room tone first */
+          text: "...you found it.",
+          effect: null,
+          next: 'ep1_s16'
+        },
+        {
+          id: 'ep1_s16',
+          art: 'studio_warm',
+          audio: 'ep1_s16',
+          speaker: 'THE KEEPER',
+          text: "Good. That's good. That's — yes. Well done. Very well done.",
+          effect: null,
+          next: 'ep1_s17'
+        },
+        {
+          id: 'ep1_s17',
+          art: 'studio_warm',
+          audio: 'ep1_s17',
+          speaker: 'THE KEEPER',
+          text: "Now go and look at the real one. The one on your wall. Not the one on your screen.",
+          effect: null,
+          next: 'ep1_s18'
+        },
+        {
+          id: 'ep1_s18',
+          art: 'studio_warm',
+          audio: 'ep1_s18',
+          speaker: 'THE KEEPER',
+          text: "There's something behind it. I'd almost forgotten it was there.",
+          effect: null,
+          next: 'ep1_s19'
+        },
+        /* ---- Sign-off ---- */
+        {
+          id: 'ep1_s19',
+          art: 'studio_warm',
+          audio: 'ep1_s19',
+          speaker: 'THE KEEPER',
+          text: "That's our show! Same time next week. Same method. Same me.",
+          effect: null,
+          next: 'ep1_s20'
+        },
+        {
+          id: 'ep1_s20',
+          art: 'studio_warm',
+          audio: 'ep1_s20',
+          speaker: 'THE KEEPER',
+          text: "Look again, friends. Look again.",
+          effect: null,
+          next: { puzzle: 'PUZ_EP2_CODE' }
         }
       ]
     },

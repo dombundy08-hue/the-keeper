@@ -30,23 +30,24 @@ window.PUZZLES = {
     prompt: "Something in the loft is wrong. Click it when you find it.",
     acceptedHashes: [],            /* click-to-solve; no typed answer */
     hints: [
-      "TODO: author input required — nudge hint.",
-      "TODO: author input required — direction hint.",
-      "TODO: author input required — the answer, in the Keeper's voice."
+      "Stand where you always stand. Now ask yourself: what would bother Mom?",
+      "Walls hold pictures. Pictures hold still. One of them is not holding still properly.",
+      "The middle frame is crooked. Click the framed pictures. And when you find it — go look behind the real one."
     ],
-    onSolve: { goto: { chapter: 'ep1', scene: 'ep1_s10' } }
+    onSolve: { goto: { chapter: 'ep1', scene: 'ep1_s15' } }
   },
 
-  /* The worked example from the spec: typed inside Episode 2. */
+  /* The Episode 1 -> 2 bridge: the word taped behind the real middle
+     frame in the real loft. Typed here, it unlocks Episode 2. */
   PUZ_EP2_CODE: {
     id: 'PUZ_EP2_CODE',
     type: 'text',
-    prompt: "What did the tape say?",
-    acceptedHashes: [3697693284, 202586677, 2116747424, 4097484948, 3426087136],
+    prompt: "What was taped behind the frame?",
+    acceptedHashes: [1719429393, 3084510534, 443116515, 617285436, 2342949497],
     hints: [
-      "He said it twice. He does not usually say anything twice.",
-      "It is a colour. The colour of the thing he keeps looking at.",
-      "The answer is MARIGOLD. Do not tell him I told you."
+      "It is not in the game. It is in your house, behind the one that was crooked.",
+      "Tape. Paper. The back of the middle frame — the real one, on the real wall, in the real loft.",
+      "The word is SECRET. But go and find the envelope anyway. It has more than the word in it."
     ],
     onSolve: { unlock: 'ep2' }
   },

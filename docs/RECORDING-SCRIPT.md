@@ -6,29 +6,45 @@ speak, in order, with its exact filename. Record into assets/audio/.
 ## Episode one — look again
 
 - `assets/audio/ep1_s01.mp3` — THE KEEPER:
-  > Hello, hello! Welcome to Curiosity Hour. I am the Keeper. That is not my name. It is my job.
+  > Hello, hello, hello! Come in. Sit down. You found us.
 - `assets/audio/ep1_s02.mp3` — THE KEEPER:
-  > Say hello, audience! ... Wonderful. You are my favourite audience. Do not tell the other ones.
+  > I'm the Keeper. This is Curiosity Hour. It's a show about looking at ordinary things until they stop being ordinary.
 - `assets/audio/ep1_s03.mp3` — THE KEEPER:
-  > Today I am going to teach you the most important thing I know. It is called the method.
+  > That's the whole show. People tell me that can't be the whole show. And I tell them — you'd be amazed.
 - `assets/audio/ep1_s04.mp3` — THE KEEPER:
-  > The method is easy. You do not need tools. You do not need to be big. You only need your eyes.
+  > Today I'm teaching you the method. Everyone who has ever watched this show has learned it. Every single one of you.
 - `assets/audio/ep1_s05.mp3` — THE KEEPER:
-  > Pick a thing you see every single day. A cup. A door. A picture on a wall. Now look at it like you have never seen it before.
+  > Here it is. Ready? Look at something you have seen a thousand times. And then look at it again.
 - `assets/audio/ep1_s06.mp3` — THE KEEPER:
-  > Look again. The secret is never hiding. It is just waiting to be noticed.
+  > Look again. The secret's never hiding. It's just waiting to be noticed.
 - `assets/audio/ep1_s07.mp3` — THE KEEPER:
-  > Because every room remembers. Every room keeps— ... ha! Where was I? The lights are very bright today.
+  > Take this desk. I have been sitting behind this desk for —
 - `assets/audio/ep1_s08.mp3` — THE KEEPER:
-  > Here is your homework. Yes, homework! Do not groan. This kind is fun. Somewhere near you, one thing is wrong. Not broken. Just wrong.
+  > — well. A while now.
 - `assets/audio/ep1_s09.mp3` — THE KEEPER:
-  > You know a room with a low white wall in it. Go and look at it properly.
+  > Three drawers. Always been three drawers.
 - `assets/audio/ep1_s10.mp3` — THE KEEPER:
-  > ... You found it. Ha. Of course you found it. I knew you would. I... hm. Well done. Truly.
+  > Count them next time.
 - `assets/audio/ep1_s11.mp3` — THE KEEPER:
-  > TODO: author input required — the Keeper gives the first real-world code here, and says where in the house to use it.
+  > Now, don't be nervous. There is nothing scary about this. It's just paying attention.
 - `assets/audio/ep1_s12.mp3` — THE KEEPER:
-  > When you find what it opens, it will have words for me. Come back and tell me the words. I will be here. I am always here.
+  > Which brings us to your homework.
+- `assets/audio/ep1_s13.mp3` — THE KEEPER:
+  > There's a room in your house with a low white wall in the middle of it. A wall that stops before it reaches the ceiling.
+- `assets/audio/ep1_s14.mp3` — THE KEEPER:
+  > Go and stand where you always stand. And then look again.
+- `assets/audio/ep1_s15.mp3` — THE KEEPER:
+  > ...you found it.
+- `assets/audio/ep1_s16.mp3` — THE KEEPER:
+  > Good. That's good. That's — yes. Well done. Very well done.
+- `assets/audio/ep1_s17.mp3` — THE KEEPER:
+  > Now go and look at the real one. The one on your wall. Not the one on your screen.
+- `assets/audio/ep1_s18.mp3` — THE KEEPER:
+  > There's something behind it. I'd almost forgotten it was there.
+- `assets/audio/ep1_s19.mp3` — THE KEEPER:
+  > That's our show! Same time next week. Same method. Same me.
+- `assets/audio/ep1_s20.mp3` — THE KEEPER:
+  > Look again, friends. Look again.
 
 ## Episode two — the box that turned around
 
@@ -106,10 +122,10 @@ speak, in order, with its exact filename. Record into assets/audio/.
   > Little figures stand in a row up there. They watch the room. In a friendly way. Probably.
 - `assets/audio/loft_canvas.mp3` — Superhero canvas:
   > A hero mid-leap. He has been mid-leap for years. Take your time. We believe in you.
-- `assets/audio/loft_frames_look.mp3` — Framed pictures:
-  > Three of them. He always liked the middle one best. Ask him why and he changes the subject.
-- `assets/audio/loft_frames_anomaly.mp3` — Framed pictures (anomaly, ep1):
-  > That one is crooked. It was not crooked a moment ago.
+- `assets/audio/ep1_loft_frames_look.mp3` — Framed pictures:
+  > Three of them. I always liked the middle one best. Don't ask me why, I never remember.
+- `assets/audio/ep1_loft_frames_anomaly.mp3` — Framed pictures (anomaly, ep1):
+  > That one is crooked. It wasn't crooked a moment ago.
 - `assets/audio/loft_tv.mp3` — TV:
   > Dark and quiet. It reflects the room back at you, slightly stretched.
 

@@ -31,19 +31,30 @@ window.ASSETS = {
     room_mom_dad:      { file: 'assets/art/room_mom_dad.png',      w: 640, h: 360, alt: "Mom and dad's room, finally real" }
   },
   audio: {
-    /* ---- Episode 1 ---- */
-    ep1_s01: { file: 'assets/audio/ep1_s01.mp3', approxSeconds: 7 },
-    ep1_s02: { file: 'assets/audio/ep1_s02.mp3', approxSeconds: 7 },
-    ep1_s03: { file: 'assets/audio/ep1_s03.mp3', approxSeconds: 6 },
-    ep1_s04: { file: 'assets/audio/ep1_s04.mp3', approxSeconds: 7 },
-    ep1_s05: { file: 'assets/audio/ep1_s05.mp3', approxSeconds: 9 },
+    /* ---- Episode 1 (20 lines, per the recording script) ---- */
+    ep1_s01: { file: 'assets/audio/ep1_s01.mp3', approxSeconds: 5 },
+    ep1_s02: { file: 'assets/audio/ep1_s02.mp3', approxSeconds: 8 },
+    ep1_s03: { file: 'assets/audio/ep1_s03.mp3', approxSeconds: 7 },
+    ep1_s04: { file: 'assets/audio/ep1_s04.mp3', approxSeconds: 8 },
+    ep1_s05: { file: 'assets/audio/ep1_s05.mp3', approxSeconds: 7 },
     ep1_s06: { file: 'assets/audio/ep1_s06.mp3', approxSeconds: 6 },
-    ep1_s07: { file: 'assets/audio/ep1_s07.mp3', approxSeconds: 8 },
-    ep1_s08: { file: 'assets/audio/ep1_s08.mp3', approxSeconds: 9 },
-    ep1_s09: { file: 'assets/audio/ep1_s09.mp3', approxSeconds: 5 },
-    ep1_s10: { file: 'assets/audio/ep1_s10.mp3', approxSeconds: 8 },
-    ep1_s11: { file: 'assets/audio/ep1_s11.mp3', approxSeconds: 8 },
-    ep1_s12: { file: 'assets/audio/ep1_s12.mp3', approxSeconds: 9 },
+    ep1_s07: { file: 'assets/audio/ep1_s07.mp3', approxSeconds: 5 },
+    ep1_s08: { file: 'assets/audio/ep1_s08.mp3', approxSeconds: 4 },  /* holds a 1s silence — do not trim */
+    ep1_s09: { file: 'assets/audio/ep1_s09.mp3', approxSeconds: 4 },
+    ep1_s10: { file: 'assets/audio/ep1_s10.mp3', approxSeconds: 3 },
+    ep1_s11: { file: 'assets/audio/ep1_s11.mp3', approxSeconds: 7 },
+    ep1_s12: { file: 'assets/audio/ep1_s12.mp3', approxSeconds: 3 },
+    ep1_s13: { file: 'assets/audio/ep1_s13.mp3', approxSeconds: 8 },
+    ep1_s14: { file: 'assets/audio/ep1_s14.mp3', approxSeconds: 5 },
+    ep1_s15: { file: 'assets/audio/ep1_s15.mp3', approxSeconds: 4 },  /* holds 2s of room tone first — do not trim */
+    ep1_s16: { file: 'assets/audio/ep1_s16.mp3', approxSeconds: 6 },
+    ep1_s17: { file: 'assets/audio/ep1_s17.mp3', approxSeconds: 6 },
+    ep1_s18: { file: 'assets/audio/ep1_s18.mp3', approxSeconds: 5 },
+    ep1_s19: { file: 'assets/audio/ep1_s19.mp3', approxSeconds: 5 },
+    ep1_s20: { file: 'assets/audio/ep1_s20.mp3', approxSeconds: 4 },
+
+    /* the channel bug's stutter during ep1_s11 */
+    bug_static_short: { file: 'assets/audio/bug_static_short.mp3', approxSeconds: 1 },
 
     /* ---- Episode 2 ---- */
     ep2_s01: { file: 'assets/audio/ep2_s01.mp3', approxSeconds: 8 },
@@ -84,9 +95,9 @@ window.ASSETS = {
     loft_window:        { file: 'assets/audio/loft_window.mp3',        approxSeconds: 6 },
     loft_shelf_figures: { file: 'assets/audio/loft_shelf_figures.mp3', approxSeconds: 6 },
     loft_canvas:        { file: 'assets/audio/loft_canvas.mp3',        approxSeconds: 6 },
-    loft_tv:            { file: 'assets/audio/loft_tv.mp3',            approxSeconds: 5 },
-    loft_frames_look:   { file: 'assets/audio/loft_frames_look.mp3',   approxSeconds: 7 },
-    loft_frames_anomaly:{ file: 'assets/audio/loft_frames_anomaly.mp3',approxSeconds: 5 },
+    loft_tv:                 { file: 'assets/audio/loft_tv.mp3',                 approxSeconds: 5 },
+    ep1_loft_frames_look:    { file: 'assets/audio/ep1_loft_frames_look.mp3',    approxSeconds: 7 },
+    ep1_loft_frames_anomaly: { file: 'assets/audio/ep1_loft_frames_anomaly.mp3', approxSeconds: 5 },
 
     /* ---- Room commentary: the hallway ---- */
     hall_print:    { file: 'assets/audio/hall_print.mp3',    approxSeconds: 6 },

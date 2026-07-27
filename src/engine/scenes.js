@@ -103,6 +103,7 @@ CH.scenes = (function () {
     } else {
       startTyping(scene.text || '');
       CH.audio.playLine(scene.audio);
+      if (scene.effect === 'bugflicker') CH.eras.bugFlicker();
     }
   }
 
