@@ -128,24 +128,47 @@ CH.ui = (function () {
 
   function revertWordmark() {
     var span = document.getElementById('wordmark-hour');
-    if (span) {
-      span.textContent = 'HOUR';
-      span.classList.remove('glitching');
-    }
+    if (span) span.textContent = 'HOUR';       /* hard cut out */
+    CH.audio.stopSfx('bug_static_bed_2s');     /* bed ends with the visual */
   }
 
+  /* HOUR -> HORROR, held a solid 2000ms, hard cut both ends.
+     The word is an image asset (exact art control); if the file is
+     missing we fall back to a text swap so it stays testable. */
   function fireGlitch() {
+    /* single-instance is enforced HERE, not by caller discipline:
+       any pending revert dies before a new cycle starts */
+    if (glitchRevert) { clearTimeout(glitchRevert); glitchRevert = null; }
     var span = document.getElementById('wordmark-hour');
-    if (span && !silent() && !reducedMotion()) {
-      span.textContent = 'HORROR';
-      span.classList.add('glitching');
-      CH.audio.playOverlay('bug_static_short', 0);
-      glitchRevert = setTimeout(revertWordmark, 150);
+    if (span && !silent()) {
+      /* P11: reduced motion kills the visual, keeps the audio */
+      if (!reducedMotion()) {
+        var entry = window.ASSETS && window.ASSETS.art &&
+                    window.ASSETS.art.wordmark_horror;
+        if (entry) {
+          var img = document.createElement('img');
+          img.alt = 'HORROR';
+          img.className = 'wordmark-glitch-img';
+          img.addEventListener('error', function () {
+            if (span.contains(img)) span.textContent = 'HORROR';
+          });
+          img.src = entry.file;
+          span.textContent = '';
+          span.appendChild(img);
+        } else {
+          span.textContent = 'HORROR';
+        }
+      }
+      CH.audio.playOverlay('bug_static_bed_2s', 0, 0.5);  /* under the voice */
+      glitchRevert = setTimeout(revertWordmark, 2000);
     }
     scheduleGlitch();   /* jittered: a metronome reads as a clock */
   }
 
   function scheduleGlitch() {
+    /* and a pending next-fire dies before another is armed — a second
+       chain of glitch timers is structurally impossible */
+    if (glitchTimer) clearTimeout(glitchTimer);
     glitchTimer = setTimeout(fireGlitch, 26000 + Math.random() * 8000);
   }
 

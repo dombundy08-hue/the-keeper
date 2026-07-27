@@ -158,23 +158,15 @@ body[data-era="notebook"] #screen-title::before { display: none; }
 .title-card { text-align: center; position: relative; z-index: 1; width: 100%; }
 .show-title { white-space: nowrap; }
 
-/* The wordmark glitch: HOUR -> HORROR, a slice shifted sideways and a
-   1px red/cyan split. 150ms, sound underneath, then gone. */
+/* The wordmark glitch: HOUR -> HORROR as an image asset, hard cut in
+   and out, 2s hold. Only the word changes; the pinned full-width card
+   means the longer word overflows instead of resizing anything. */
 #wordmark-hour { position: relative; display: inline-block; }
-#wordmark-hour.glitching {
-  transform: translateX(1px);
-  text-shadow: -1px 0 rgba(140, 47, 39, 0.85),
-                1px 0 rgba(182, 199, 190, 0.85),
-                2px 2px 0 var(--chrome);
-}
-#wordmark-hour.glitching::after {
-  content: 'HORROR';
-  position: absolute;
-  left: 2px;
-  top: 0;
-  color: inherit;
-  text-shadow: inherit;
-  clip-path: inset(38% 0 34% 0);   /* a thin horizontal slice, offset */
+.wordmark-glitch-img {
+  height: 40px;              /* matches the wordmark cap height */
+  width: auto;
+  vertical-align: bottom;
+  image-rendering: pixelated;
 }
 .show-title {
   color: var(--accent);
@@ -293,10 +285,34 @@ body[data-era="cold"] .panel h2 { color: var(--accent); }
   resize: none;
   word-break: break-all;
 }
+.key-compact {
+  font-size: 22px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 6px;
+  word-break: normal;
+  resize: none;
+}
 .feedback {
   font-size: 11px;
   min-height: 16px;
   margin-top: 6px;
+}
+
+/* ---- toast: brief confirmations (mute toggle) ---- */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  font-size: 11px;
+  background: var(--broadcast-ink);
+  color: var(--studio-cream);
+  border: 2px solid var(--accent);
+  z-index: 40;
+  pointer-events: none;
 }
 .feedback.bad { color: var(--danger); }
 .feedback.good { color: var(--curiosity-teal); }

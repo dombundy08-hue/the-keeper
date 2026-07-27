@@ -44,6 +44,13 @@ CH.screens = (function () {
 
   return {
     show: function (name) {
+      /* Unmount duties for the outgoing screen: long-running effect
+         audio dies, the typewriter timer dies. (Voice lines survive
+         the settings menu on purpose; ui blips finish on their own.) */
+      if (name !== current) {
+        CH.audio.stopAllSfx();
+        if (CH.scenes && CH.scenes.interrupt) CH.scenes.interrupt();
+      }
       for (var i = 0; i < NAMES.length; i++) {
         var section = el('screen-' + NAMES[i]);
         if (section) section.hidden = (NAMES[i] !== name);
@@ -81,6 +88,23 @@ CH.screens = (function () {
     },
 
     currentScreen: function () { return current; },
+
+    /* Brief on-screen confirmation (the M-key feedback). One timer,
+       cleared on reuse — it can never accumulate. */
+    toast: (function () {
+      var timer = null;
+      return function (message) {
+        var box = el('toast');
+        if (!box) return;
+        box.textContent = message;
+        box.hidden = false;
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function () {
+          box.hidden = true;
+          timer = null;
+        }, 1400);
+      };
+    })(),
 
     openSettings: function (returnTo) {
       settingsReturnTo = returnTo || 'title';
@@ -233,10 +257,8 @@ CH.screens = (function () {
         CH.audio.applySettings();
       });
       el('set-mute').addEventListener('change', function () {
-        var s = CH.state.get().settings;
-        s.muted = this.checked;
-        CH.state.save();
-        CH.audio.applySettings();
+        /* routes through setMuted so it silences mid-playback audio too */
+        CH.audio.setMuted(this.checked);
       });
       el('set-speed').addEventListener('change', function () {
         var s = CH.state.get().settings;
@@ -268,6 +290,14 @@ CH.screens = (function () {
       document.addEventListener('keydown', function (ev) {
         var tag = (ev.target && ev.target.tagName) || '';
         var typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+
+        /* M: the mute panic button. Works on every screen, mid-scene. */
+        if (!typing && (ev.key === 'm' || ev.key === 'M')) {
+          var muted = CH.audio.toggleMute();
+          self.toast(muted ? 'Sound off — press M to turn it back on' : 'Sound on');
+          var muteBox = el('set-mute');
+          if (muteBox) muteBox.checked = muted;
+        }
 
         if (current === 'scene' && !typing &&
             (ev.key === 'Enter' || ev.key === ' ')) {

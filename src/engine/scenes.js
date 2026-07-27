@@ -93,6 +93,8 @@ CH.scenes = (function () {
   /* ---- render ---- */
   function render(chapter, scene, opts) {
     opts = opts || {};
+    /* the previous scene's pending effects die with it */
+    CH.audio.stopAllSfx();
     CH.eras.apply(chapter.era || 'warm');
     document.getElementById('scene-speaker').textContent = scene.speaker || '';
     renderArt(scene.art);
@@ -108,6 +110,9 @@ CH.scenes = (function () {
   }
 
   return {
+    /* Unmount hook: kill the typewriter timer wherever we are. */
+    interrupt: stopTyping,
+
     startChapter: function (chapterId) {
       var chapter = findChapter(chapterId);
       if (!chapter || !chapter.scenes || !chapter.scenes.length) {

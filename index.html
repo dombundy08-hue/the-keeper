@@ -71,19 +71,20 @@ window.onerror = function (message, source, line) {
     <section class="screen" id="screen-key" hidden>
       <div class="panel">
         <h2>Keeper's Key</h2>
-        <p class="small">This key holds your whole game. Copy it somewhere safe,
-           or print it. If the game ever forgets you, paste it back in here.</p>
+        <p class="small">This short code holds your whole game. Write it on an
+           index card, or print it. If the game ever forgets you, type it back
+           in here. Small letters, capital letters, and dashes do not matter.</p>
         <div id="key-card" class="key-card">
-          <textarea id="key-current" class="key-text" readonly rows="4"
-                    aria-label="Your Keeper's Key"></textarea>
+          <input id="key-current" class="key-text key-compact" readonly
+                 aria-label="Your Keeper's Key">
         </div>
         <div class="row">
           <button id="btn-key-copy" class="menu-btn">Copy</button>
           <button id="btn-key-print" class="menu-btn">Print</button>
         </div>
         <h3>Load a key</h3>
-        <textarea id="key-input" class="key-text" rows="4"
-                  aria-label="Paste a Keeper's Key here"></textarea>
+        <input id="key-input" class="key-text key-compact" autocomplete="off"
+               spellcheck="false" aria-label="Type a Keeper's Key here">
         <p id="key-feedback" class="feedback" role="status"></p>
         <div class="row">
           <button id="btn-key-load" class="menu-btn">Load this key</button>
@@ -258,6 +259,9 @@ window.onerror = function (message, source, line) {
 
     <!-- The keyhole. Small, quiet, bottom-left. Five clicks. -->
     <button id="keyhole" aria-label="keyhole">&#9906;</button>
+
+    <!-- Brief confirmations (M-key mute toggle) -->
+    <div id="toast" class="toast" role="status" hidden></div>
 
     <!-- Broadcast chrome: the signature element. Crisp in episode 1,
          decaying each era, gone entirely in the notebook. -->

@@ -28,7 +28,10 @@ window.ASSETS = {
     room_bathroom:     { file: 'assets/art/room_bathroom.png',     w: 640, h: 360, alt: 'The bathroom' },
     room_zoe_evie:     { file: 'assets/art/room_zoe_evie.png',     w: 640, h: 360, alt: "Zoe and Evie's room" },
     room_mom_dad_smear:{ file: 'assets/art/room_mom_dad_smear.png',w: 640, h: 360, alt: 'A room the map never finished — smeared, low confidence' },
-    room_mom_dad:      { file: 'assets/art/room_mom_dad.png',      w: 640, h: 360, alt: "Mom and dad's room, finally real" }
+    room_mom_dad:      { file: 'assets/art/room_mom_dad.png',      w: 640, h: 360, alt: "Mom and dad's room, finally real" },
+
+    /* the title wordmark's glitch state — placeholder until real art */
+    wordmark_horror:   { file: 'assets/art/wordmark_horror.png',   w: 300, h: 56, alt: 'HORROR' }
   },
   audio: {
     /* ---- Episode 1 (20 lines, per the recording script) ---- */
@@ -54,8 +57,9 @@ window.ASSETS = {
     ep1_s20: { file: 'assets/audio/ep1_s20.mp3', approxSeconds: 4 },
 
     /* the channel bug's stutter during ep1_s11 */
-    bug_static_short: { file: 'assets/audio/bug_static_short.mp3', approxSeconds: 1 },
-    bug_static_long:  { file: 'assets/audio/bug_static_long.mp3',  approxSeconds: 1 },
+    bug_static_short:   { file: 'assets/audio/bug_static_short.mp3',   approxSeconds: 1 },
+    bug_static_long:    { file: 'assets/audio/bug_static_long.mp3',    approxSeconds: 1 },
+    bug_static_bed_2s:  { file: 'assets/audio/bug_static_bed_2s.mp3',  approxSeconds: 2 },
 
     /* ---- UI sounds. In the notebook era these all go silent. ---- */
     ui_hover:  { file: 'assets/audio/ui_hover.mp3',  approxSeconds: 1 },

@@ -28,6 +28,8 @@ CH.eras = (function () {
 
     apply: function (era) {
       era = era || 'warm';
+      var prev = document.body.getAttribute('data-era');
+      if (prev !== era && CH.audio) CH.audio.stopAllSfx();
       document.body.setAttribute('data-era', era);
       var bug = document.getElementById('chrome-bug');
       if (bug) bug.textContent = BUG_TEXT[era] != null ? BUG_TEXT[era] : BUG_TEXT.warm;
