@@ -5,6 +5,9 @@ docs/KEEPERS-LEDGER.md
 # Plaintext puzzle answers live here, for the author and the build only.
 src/content/answers.local.js
 
+# Build output (the zip is a local deliverable; Pages serves the source)
+dist/
+
 # Editor/OS noise and scratch files
 *.bak
 Thumbs.db

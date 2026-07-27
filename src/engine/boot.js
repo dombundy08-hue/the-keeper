@@ -123,6 +123,19 @@
     CH.state.load();               /* harmless if there is no save */
     CH.screens.init();
 
+    /* ?validate=1 prints the full content check, in plain English. */
+    if (/[?&]validate=1/.test(location.search) && CH.validate) {
+      var result = CH.validate.run();
+      var list = [];
+      for (var v = 0; v < result.errors.length; v++) list.push(result.errors[v]);
+      for (var t = 0; t < result.todos.length; t++) {
+        list.push({ what: 'TODO — ' + result.todos[t].what, how: 'Not a mistake, just unfinished.' });
+      }
+      if (!list.length) list.push({ what: 'All clear', how: 'Every check passed. Nothing is broken and nothing is left unfinished.' });
+      reportProblems(list);
+      return;
+    }
+
     /* ?dev=1 opens the dev screen (file:// and localhost only). */
     if (/[?&]dev=1/.test(location.search) && CH.dev && CH.dev.isDevHost()) {
       CH.dev.open();

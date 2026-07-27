@@ -171,9 +171,12 @@ CH.screens = (function () {
       });
       el('btn-handoff-back').addEventListener('click', function () { CH.notebook.open(); });
 
-      /* Dev screen */
-      el('btn-dev-back').addEventListener('click', function () { self.show('title'); });
-      el('btn-dev-hash').addEventListener('click', function () { CH.dev.hashTool(); });
+      /* Dev screen — its HTML is stripped from the shipped build,
+         so wire it only if it exists. */
+      if (el('btn-dev-back')) {
+        el('btn-dev-back').addEventListener('click', function () { self.show('title'); });
+        el('btn-dev-hash').addEventListener('click', function () { CH.dev.hashTool(); });
+      }
 
       /* Keeper's Key */
       el('btn-key-back').addEventListener('click', function () { self.show('title'); });
