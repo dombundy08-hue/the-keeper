@@ -379,6 +379,63 @@ body[data-era="cold"] .panel h2 { color: var(--accent); }
   border-left: 3px solid var(--danger);
 }
 
+/* ---- The notebook: paper and handwriting, no chrome ---- */
+.notebook-panel {
+  background: #EFE8D6;
+  color: #23201B;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0 23px, rgba(35, 32, 27, 0.07) 23px 24px);
+}
+.notebook-heading {
+  font-family: "Segoe Script", "Comic Sans MS", cursive;
+  color: #23201B !important;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+.notebook-text {
+  font-family: "Segoe Script", "Comic Sans MS", cursive;
+  font-size: 14px;
+  line-height: 24px;   /* sits on the ruled lines */
+  margin: 10px 0 14px;
+  white-space: pre-wrap;
+}
+.notebook-row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: "Segoe Script", "Comic Sans MS", cursive;
+  font-size: 14px;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  background: transparent;
+  color: #23201B;
+  border: none;
+  border-bottom: 1px dashed rgba(35, 32, 27, 0.3);
+  cursor: pointer;
+}
+.notebook-row:hover:not(:disabled) { background: rgba(35, 32, 27, 0.06); }
+.notebook-row.locked { opacity: 0.4; cursor: default; }
+.notebook-btn {
+  background: transparent;
+  color: #23201B;
+  border: 1px solid #23201B;
+  font-family: "Segoe Script", "Comic Sans MS", cursive;
+}
+.notebook-btn:hover { background: #23201B; color: #EFE8D6; }
+
+/* ---- The handoff: not the game anymore ---- */
+.handoff-panel {
+  background: #EFE8D6;
+  background-image: none;   /* no ruled lines; this is a real letter */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+.handoff-video { width: 420px; max-width: 100%; background: #000; }
+.handoff-letter { max-width: 480px; overflow-y: auto; max-height: 150px; }
+
 /* ---- Dev screen ---- */
 .dev-box {
   max-height: 90px;

@@ -5,7 +5,7 @@ window.CH = window.CH || {};
 
 CH.screens = (function () {
   var NAMES = ['title', 'scene', 'room', 'code', 'key', 'settings',
-               'puzzle', 'override', 'dev', 'error'];
+               'puzzle', 'override', 'notebook', 'handoff', 'dev', 'error'];
   var current = null;
   var settingsReturnTo = 'title';   /* where Back goes from the menu */
 
@@ -14,6 +14,9 @@ CH.screens = (function () {
   function refreshTitle() {
     var btnContinue = el('btn-continue');
     if (btnContinue) btnContinue.hidden = !CH.state.hasSave();
+    /* After the last broadcast, the notebook is what remains. */
+    var btnNotebook = el('btn-notebook');
+    if (btnNotebook) btnNotebook.hidden = !CH.notebook.isOpenToPlayer();
   }
 
   function refreshKeyScreen() {
@@ -158,6 +161,15 @@ CH.screens = (function () {
       el('btn-override-reset').addEventListener('click', function () {
         CH.puzzles.overrideReset();
       });
+
+      /* Notebook and handoff */
+      el('btn-notebook').addEventListener('click', function () { CH.notebook.open(); });
+      el('btn-notebook-back').addEventListener('click', function () { CH.notebook.open(); });
+      el('btn-notebook-title').addEventListener('click', function () {
+        CH.audio.stop();
+        self.show('title');
+      });
+      el('btn-handoff-back').addEventListener('click', function () { CH.notebook.open(); });
 
       /* Dev screen */
       el('btn-dev-back').addEventListener('click', function () { self.show('title'); });

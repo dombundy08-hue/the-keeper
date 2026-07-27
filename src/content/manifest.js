@@ -132,6 +132,18 @@ window.ASSETS = {
 
     /* ---- Room commentary: mom and dad's room ---- */
     md_nightstand:         { file: 'assets/audio/md_nightstand.mp3',         approxSeconds: 6 },
-    md_nightstand_anomaly: { file: 'assets/audio/md_nightstand_anomaly.mp3', approxSeconds: 8 }
+    md_nightstand_anomaly: { file: 'assets/audio/md_nightstand_anomaly.mp3', approxSeconds: 8 },
+
+    /* ---- Fragments era: raw unaired audio ---- */
+    frag_w3_1:   { file: 'assets/audio/frag_w3_1.mp3',   approxSeconds: 20 },
+    frag_w3_2:   { file: 'assets/audio/frag_w3_2.mp3',   approxSeconds: 20 },
+    frag_w4_1:   { file: 'assets/audio/frag_w4_1.mp3',   approxSeconds: 20 },
+    frag_finale: { file: 'assets/audio/frag_finale.mp3', approxSeconds: 25 }
+  },
+
+  /* Dom's real video, for the handoff screen. Not pixel art. Not the
+     Keeper. Drop the file in and the slot plays it. */
+  video: {
+    dom_final: { file: 'assets/video/dom_final.mp4', approxSeconds: 0 }
   }
 };

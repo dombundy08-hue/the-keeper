@@ -406,5 +406,45 @@ window.STORY = {
         }
       ]
     }
-  ]
+  ],
+
+  /* ============ THE FRAGMENTS ERA ============
+     After Episode 4 there are no episodes. These are notebook pages,
+     revealed by codes from the physical hunt (weeks 3 and 4) and by
+     the lens puzzle. Paper and handwriting; no broadcast anything.
+     DRAFT — rewrite freely. Order here is the order shown. */
+  fragments: [
+    {
+      id: 'frag_w3_1',
+      title: 'a torn page — the method',
+      audio: 'frag_w3_1',
+      text: "TODO: author input required — Week 3 fragment. He did not know, when the show started. Someone taught him the method. He can barely remember who."
+    },
+    {
+      id: 'frag_w3_2',
+      title: 'a torn page — the audience',
+      audio: 'frag_w3_2',
+      text: "TODO: author input required — Week 3 fragment. The realization about the studio audience, and why the show had to go dark."
+    },
+    {
+      id: 'frag_w4_1',
+      title: 'a folded page — the lenses',
+      audio: 'frag_w4_1',
+      text: "TODO: author input required — Week 4 fragment. Three lenses, one order. The instruction page with the three circles.",
+      puzzle: 'PUZ_LENSES',
+      actionLabel: 'Stack the lenses'
+    },
+    {
+      id: 'frag_finale',
+      title: 'the last page',
+      audio: 'frag_finale',
+      text: "TODO: author input required — the last written page. It should not explain everything. It should just say where the box is, and that he wanted them to find it.",
+      handoff: true,
+      actionLabel: 'Play the last tape'
+    }
+  ],
+
+  /* The letter shown on the handoff screen, under Dom's real video.
+     Out of character, no Keeper. */
+  handoffLetter: "TODO: author input required — Dom's real letter, in his own words. The warmth is the point of the whole exercise; land it fully and without irony."
 };

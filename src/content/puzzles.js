@@ -139,6 +139,46 @@ window.PUZZLES = {
     onSolve: { unlock: 'ep4' }
   },
 
+  /* ---- Notebook fragment codes (weeks 3 and 4). ---- */
+  CODE_NB1: {
+    id: 'CODE_NB1',
+    type: 'text',
+    prompt: "Enter the code from the clue you found.",
+    acceptedHashes: [],   /* TODO: author input required — library clue */
+    hints: [
+      "The code is on the clue you found in the real world. Bring it back here.",
+      "Check the bottom of the paper. Codes hide in corners.",
+      "TODO: author input required — state the Week 3 code outright."
+    ],
+    onSolve: { fragment: 'frag_w3_1' }
+  },
+
+  CODE_NB2: {
+    id: 'CODE_NB2',
+    type: 'text',
+    prompt: "Enter the code from the clue you found.",
+    acceptedHashes: [],   /* TODO: author input required — second library clue */
+    hints: [
+      "The code is on the clue you found in the real world. Bring it back here.",
+      "Check the bottom of the paper. Codes hide in corners.",
+      "TODO: author input required — state the second Week 3 code outright."
+    ],
+    onSolve: { fragment: 'frag_w3_2' }
+  },
+
+  CODE_NB3: {
+    id: 'CODE_NB3',
+    type: 'text',
+    prompt: "Enter the code from the clue you found.",
+    acceptedHashes: [],   /* TODO: author input required — attic clue */
+    hints: [
+      "The code is on the clue you found in the real world. Bring it back here.",
+      "Check the bottom of the paper. Codes hide in corners.",
+      "TODO: author input required — state the Week 4 code outright."
+    ],
+    onSolve: { fragment: 'frag_w4_1' }
+  },
+
   /* ---- The finale: order the three lenses. ---- */
   PUZ_LENSES: {
     id: 'PUZ_LENSES',

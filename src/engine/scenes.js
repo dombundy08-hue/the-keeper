@@ -147,6 +147,7 @@ CH.scenes = (function () {
       /* Put the player back where the autosave left them. */
       if (d.screen === 'room' && d.room) { CH.rooms.enter(d.room); return; }
       if (d.screen === 'puzzle' && d.puzzle) { CH.puzzles.show(d.puzzle); return; }
+      if (d.screen === 'notebook') { CH.notebook.open(); return; }
       if (d.chapter && d.scene) this.show(d.chapter, d.scene);
       else this.startFirstChapter();
     },
@@ -202,6 +203,10 @@ CH.scenes = (function () {
 
       if (next == null || next.end) {
         CH.audio.stop();
+        if (d.completed.indexOf(d.chapter) === -1) {
+          d.completed.push(d.chapter);
+          CH.state.save();
+        }
         CH.screens.show('title');
         return;
       }

@@ -30,6 +30,7 @@ window.onerror = function (message, source, line) {
         <div class="menu">
           <button id="btn-begin" class="menu-btn">Begin</button>
           <button id="btn-continue" class="menu-btn" hidden>Continue</button>
+          <button id="btn-notebook" class="menu-btn" hidden>The notebook</button>
           <button id="btn-code" class="menu-btn">Enter a code</button>
           <button id="btn-key" class="menu-btn">Keeper's Key</button>
           <button id="btn-settings" class="menu-btn">Settings</button>
@@ -192,6 +193,36 @@ window.onerror = function (message, source, line) {
       </div>
     </section>
 
+    <!-- The notebook: paper, handwriting, no chrome. After Episode 4. -->
+    <section class="screen" id="screen-notebook" hidden>
+      <div class="panel notebook-panel">
+        <h2 class="notebook-heading">the notebook</h2>
+        <div id="notebook-list"></div>
+        <div id="notebook-reader" hidden>
+          <h3 id="notebook-title" class="notebook-heading"></h3>
+          <div id="notebook-text" class="notebook-text"></div>
+          <div class="row">
+            <button id="btn-notebook-action" class="menu-btn notebook-btn" hidden></button>
+            <button id="btn-notebook-back" class="menu-btn notebook-btn">Back to the pages</button>
+          </div>
+        </div>
+        <div class="row">
+          <button id="btn-notebook-title" class="menu-btn notebook-btn">Close the notebook</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- The handoff: not the game anymore. Dom's real video and letter. -->
+    <section class="screen" id="screen-handoff" hidden>
+      <div class="panel notebook-panel handoff-panel">
+        <div id="handoff-video-slot"></div>
+        <div id="handoff-letter" class="notebook-text handoff-letter"></div>
+        <div class="row">
+          <button id="btn-handoff-back" class="menu-btn notebook-btn">Put the letter down</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Dev screen. ?dev=1, file:// or localhost only. Stripped by the build. -->
     <section class="screen" id="screen-dev" hidden>
       <div class="panel">
@@ -248,6 +279,7 @@ window.onerror = function (message, source, line) {
 <script src="src/engine/scenes.js"></script>
 <script src="src/engine/rooms.js"></script>
 <script src="src/engine/puzzles.js"></script>
+<script src="src/engine/notebook.js"></script>
 <script src="src/engine/dev.js"></script>
 <script src="src/engine/screens.js"></script>
 

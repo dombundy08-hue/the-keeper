@@ -40,6 +40,11 @@ CH.eras = (function () {
     /* The title screen wears the era of the furthest chapter the
        player has unlocked — the menu itself decays as the hunt goes. */
     applyForTitle: function () {
+      /* Once the last broadcast has aired, even the menu is paper. */
+      if (CH.notebook && CH.notebook.isOpenToPlayer()) {
+        this.apply('notebook');
+        return;
+      }
       var chapters = (window.STORY && window.STORY.chapters) || [];
       var era = 'warm';
       for (var i = 0; i < chapters.length; i++) {

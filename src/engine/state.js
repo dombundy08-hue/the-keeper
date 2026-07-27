@@ -20,6 +20,7 @@ CH.state = (function () {
       puzzle: null,         /* current puzzle id when on the puzzle screen */
       screen: 'title',      /* which top-level screen we were on */
       unlocked: [],         /* chapter ids unlocked by codes */
+      completed: [],        /* chapter ids played to their end card */
       solved: [],           /* puzzle ids solved */
       found: [],            /* anomaly object ids found, as 'chapter:objectId' */
       hints: {},            /* puzzleId -> highest hint index revealed (1..3) */
