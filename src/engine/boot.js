@@ -122,6 +122,12 @@
 
     CH.state.load();               /* harmless if there is no save */
     CH.screens.init();
+
+    /* ?dev=1 opens the dev screen (file:// and localhost only). */
+    if (/[?&]dev=1/.test(location.search) && CH.dev && CH.dev.isDevHost()) {
+      CH.dev.open();
+      return;
+    }
     CH.screens.show('title');
   }
 

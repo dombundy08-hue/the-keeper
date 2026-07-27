@@ -5,7 +5,7 @@ window.CH = window.CH || {};
 
 CH.screens = (function () {
   var NAMES = ['title', 'scene', 'room', 'code', 'key', 'settings',
-               'puzzle', 'override', 'error'];
+               'puzzle', 'override', 'dev', 'error'];
   var current = null;
   var settingsReturnTo = 'title';   /* where Back goes from the menu */
 
@@ -158,6 +158,10 @@ CH.screens = (function () {
       el('btn-override-reset').addEventListener('click', function () {
         CH.puzzles.overrideReset();
       });
+
+      /* Dev screen */
+      el('btn-dev-back').addEventListener('click', function () { self.show('title'); });
+      el('btn-dev-hash').addEventListener('click', function () { CH.dev.hashTool(); });
 
       /* Keeper's Key */
       el('btn-key-back').addEventListener('click', function () { self.show('title'); });

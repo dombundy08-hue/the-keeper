@@ -184,6 +184,20 @@ CH.scenes = (function () {
       if (!scene) return;
 
       stopTyping();
+
+      /* Episode 4's hard cut: the first advance past the cut scene
+         kills the audio dead and shows NO SIGNAL; the next advance
+         moves on. The audio file itself should end mid-word. */
+      var nosignal = document.getElementById('nosignal');
+      if (scene.effect === 'static_cut' && nosignal.hidden) {
+        CH.audio.stop();
+        document.getElementById('scene-text').textContent = '';
+        document.getElementById('scene-speaker').textContent = '';
+        nosignal.hidden = false;
+        return;
+      }
+      if (!nosignal.hidden) nosignal.hidden = true;
+
       var next = scene.next;
 
       if (next == null || next.end) {

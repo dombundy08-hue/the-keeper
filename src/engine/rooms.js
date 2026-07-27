@@ -35,16 +35,22 @@ CH.rooms = (function () {
   function renderBackground(room) {
     var artEl = document.getElementById('room-art');
     artEl.innerHTML = '';
-    var entry = room.art && window.ASSETS && window.ASSETS.art && window.ASSETS.art[room.art];
+    /* A room can render as a smear until a chapter resolves it
+       (mom & dad's room becomes real in Episode 4). */
+    var artId = room.art;
+    if (room.resolvedArt && room.resolvesIn && CH.state.isUnlocked(room.resolvesIn)) {
+      artId = room.resolvedArt;
+    }
+    var entry = artId && window.ASSETS && window.ASSETS.art && window.ASSETS.art[artId];
     if (!entry) {
-      artEl.textContent = '[ ' + (room.art || room.id) + ' ]';
+      artEl.textContent = artId ? '[ ' + artId + ' ]' : '[ ' + room.id + ' ]';
       return;
     }
     var img = document.createElement('img');
     img.alt = entry.alt || room.name;
     img.addEventListener('error', function () {
       artEl.innerHTML = '';
-      artEl.textContent = '[ ' + room.art + ' ]';
+      artEl.textContent = '[ ' + artId + ' ]';
     });
     img.src = entry.file;
     artEl.appendChild(img);
@@ -120,8 +126,11 @@ CH.rooms = (function () {
     for (var j = 0; j < exits.length; j++) {
       (function (exit) {
         addBox(exit.box, 'hotspot exit', exit.label, function () {
-          if (exit.blocked) {
-            /* e.g. downstairs: mapped by nobody, goes nowhere. */
+          /* Permanently blocked (downstairs), or blocked until a
+             chapter unlocks (mom & dad's door before Episode 4). */
+          var isBlocked = exit.blocked &&
+            (!exit.blockedUntil || !CH.state.isUnlocked(exit.blockedUntil));
+          if (isBlocked) {
             setLookPanel(exit.label, exit.blocked);
             CH.audio.playLine(exit.audio);
             return;

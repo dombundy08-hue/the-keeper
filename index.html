@@ -45,6 +45,11 @@ window.onerror = function (message, source, line) {
         <div id="scene-text" class="scene-text"></div>
         <div class="scene-hint">click or press Enter to continue</div>
       </div>
+      <!-- Episode 4's hard cut: static burst, then this card. -->
+      <div id="nosignal" class="nosignal" hidden>
+        <div class="nosignal-noise"></div>
+        <div class="nosignal-text">NO SIGNAL</div>
+      </div>
     </section>
 
     <!-- Code entry (physical -> digital bridge; full version in a later milestone) -->
@@ -187,6 +192,29 @@ window.onerror = function (message, source, line) {
       </div>
     </section>
 
+    <!-- Dev screen. ?dev=1, file:// or localhost only. Stripped by the build. -->
+    <section class="screen" id="screen-dev" hidden>
+      <div class="panel">
+        <h2>Dev screen</h2>
+        <h3>Hash tool</h3>
+        <div class="row">
+          <input id="dev-hash-in" class="big-input" type="text"
+                 placeholder="answer to hash" aria-label="Answer to hash">
+          <button id="btn-dev-hash" class="menu-btn seq-btn">Hash it</button>
+        </div>
+        <p id="dev-hash-out" class="feedback"></p>
+        <h3>TODOs left in content</h3>
+        <div id="dev-todos" class="dev-box"></div>
+        <h3>Jump to scene</h3>
+        <div id="dev-jump" class="row wrap"></div>
+        <h3>Asset report</h3>
+        <div id="dev-assets" class="dev-box"></div>
+        <div class="row">
+          <button id="btn-dev-back" class="menu-btn">Back</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Plain-English error screen. Constraint 8: never a white screen. -->
     <section class="screen" id="screen-error" hidden>
       <div class="panel error-panel">
@@ -220,6 +248,7 @@ window.onerror = function (message, source, line) {
 <script src="src/engine/scenes.js"></script>
 <script src="src/engine/rooms.js"></script>
 <script src="src/engine/puzzles.js"></script>
+<script src="src/engine/dev.js"></script>
 <script src="src/engine/screens.js"></script>
 
 <!-- Content: these four files are the whole story. They are safe to edit. -->

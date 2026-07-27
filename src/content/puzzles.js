@@ -51,6 +51,62 @@ window.PUZZLES = {
     onSolve: { unlock: 'ep2' }
   },
 
+  /* Solved by clicking the turned box in the closet (Episode 2). */
+  PUZ_EP2_CLOSET: {
+    id: 'PUZ_EP2_CLOSET',
+    type: 'text',
+    prompt: "Something in the closet is wrong. Click it when you find it.",
+    acceptedHashes: [],
+    hints: [
+      "TODO: author input required — nudge hint.",
+      "TODO: author input required — direction hint.",
+      "TODO: author input required — the answer, in the Keeper's voice."
+    ],
+    onSolve: { goto: { chapter: 'ep2', scene: 'ep2_s07' } }
+  },
+
+  /* Episode 3 has two wrong things. The book first... */
+  PUZ_EP3_SHELF: {
+    id: 'PUZ_EP3_SHELF',
+    type: 'text',
+    prompt: "Something in Dom's room is wrong. Click it when you find it.",
+    acceptedHashes: [],
+    hints: [
+      "TODO: author input required — nudge hint.",
+      "TODO: author input required — direction hint.",
+      "TODO: author input required — the answer, in the Keeper's voice."
+    ],
+    onSolve: { goto: { chapter: 'ep3', scene: 'ep3_s06' } }
+  },
+
+  /* ...then the clock. */
+  PUZ_EP3_CLOCK: {
+    id: 'PUZ_EP3_CLOCK',
+    type: 'text',
+    prompt: "A machine in the house has stopped telling the truth. Find it.",
+    acceptedHashes: [],
+    hints: [
+      "TODO: author input required — nudge hint.",
+      "TODO: author input required — direction hint.",
+      "TODO: author input required — the answer, in the Keeper's voice."
+    ],
+    onSolve: { goto: { chapter: 'ep3', scene: 'ep3_s07' } }
+  },
+
+  /* Episode 4: the nightstand letter. */
+  PUZ_EP4_NIGHTSTAND: {
+    id: 'PUZ_EP4_NIGHTSTAND',
+    type: 'text',
+    prompt: "The unfinished room has one thing in it that matters. Find it.",
+    acceptedHashes: [],
+    hints: [
+      "TODO: author input required — nudge hint.",
+      "TODO: author input required — direction hint.",
+      "TODO: author input required — the answer, in the Keeper's voice."
+    ],
+    onSolve: { goto: { chapter: 'ep4', scene: 'ep4_s05' } }
+  },
+
   /* ---- Physical-world codes. Each unlocks a chapter. ----
      The kids find these written on paper clues in the house.
      TODO: author input required — replace every acceptedHashes below
