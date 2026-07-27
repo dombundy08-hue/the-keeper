@@ -55,6 +55,13 @@ window.ASSETS = {
 
     /* the channel bug's stutter during ep1_s11 */
     bug_static_short: { file: 'assets/audio/bug_static_short.mp3', approxSeconds: 1 },
+    bug_static_long:  { file: 'assets/audio/bug_static_long.mp3',  approxSeconds: 1 },
+
+    /* ---- UI sounds. In the notebook era these all go silent. ---- */
+    ui_hover:  { file: 'assets/audio/ui_hover.mp3',  approxSeconds: 1 },
+    ui_select: { file: 'assets/audio/ui_select.mp3', approxSeconds: 1 },
+    ui_back:   { file: 'assets/audio/ui_back.mp3',   approxSeconds: 1 },
+    ui_denied: { file: 'assets/audio/ui_denied.mp3', approxSeconds: 1 },
 
     /* ---- Episode 2 ---- */
     ep2_s01: { file: 'assets/audio/ep2_s01.mp3', approxSeconds: 8 },

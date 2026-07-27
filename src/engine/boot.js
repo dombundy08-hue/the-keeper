@@ -122,6 +122,7 @@
 
     CH.state.load();               /* harmless if there is no save */
     CH.screens.init();
+    CH.ui.init();                  /* pixel cursor + UI sounds */
 
     /* ?validate=1 prints the full content check, in plain English. */
     if (/[?&]validate=1/.test(location.search) && CH.validate) {

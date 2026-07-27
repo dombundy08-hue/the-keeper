@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -62,7 +62,7 @@ window.onerror = function (message, source, line) {
         <p id="code-feedback" class="feedback" role="status"></p>
         <div class="row">
           <button id="btn-code-submit" class="menu-btn">Try it</button>
-          <button id="btn-code-back" class="menu-btn">Back</button>
+          <button id="btn-code-back" class="menu-btn back">Back</button>
         </div>
       </div>
     </section>
@@ -87,7 +87,7 @@ window.onerror = function (message, source, line) {
         <p id="key-feedback" class="feedback" role="status"></p>
         <div class="row">
           <button id="btn-key-load" class="menu-btn">Load this key</button>
-          <button id="btn-key-back" class="menu-btn">Back</button>
+          <button id="btn-key-back" class="menu-btn back">Back</button>
         </div>
       </div>
     </section>
@@ -113,7 +113,7 @@ window.onerror = function (message, source, line) {
         <div class="row">
           <button id="btn-puzzle-submit" class="menu-btn">Try it</button>
           <button id="btn-stuck" class="menu-btn">I'm stuck</button>
-          <button id="btn-puzzle-back" class="menu-btn">Back</button>
+          <button id="btn-puzzle-back" class="menu-btn back">Back</button>
         </div>
         <div id="puzzle-hints" class="puzzle-hints"></div>
       </div>
@@ -130,7 +130,7 @@ window.onerror = function (message, source, line) {
           <p id="override-gate-feedback" class="feedback bad" role="status"></p>
           <div class="row">
             <button id="btn-override-go" class="menu-btn">Open</button>
-            <button id="btn-override-cancel" class="menu-btn">Back</button>
+            <button id="btn-override-cancel" class="menu-btn back">Back</button>
           </div>
         </div>
         <div id="override-panel" hidden>
@@ -143,7 +143,7 @@ window.onerror = function (message, source, line) {
           <div class="row wrap">
             <button id="btn-override-key" class="menu-btn">Export Keeper's Key</button>
             <button id="btn-override-reset" class="menu-btn danger">Reset everything</button>
-            <button id="btn-override-close" class="menu-btn">Close</button>
+            <button id="btn-override-close" class="menu-btn back">Close</button>
           </div>
           <p id="override-feedback" class="feedback" role="status"></p>
         </div>
@@ -186,8 +186,8 @@ window.onerror = function (message, source, line) {
         </div>
         <p id="settings-feedback" class="feedback" role="status"></p>
         <div class="row">
-          <button id="btn-settings-back" class="menu-btn">Back</button>
-          <button id="btn-settings-title" class="menu-btn">Title screen</button>
+          <button id="btn-settings-back" class="menu-btn back">Back</button>
+          <button id="btn-settings-title" class="menu-btn back">Title screen</button>
           <button id="btn-restart" class="menu-btn danger">Restart the game</button>
         </div>
       </div>
@@ -203,11 +203,11 @@ window.onerror = function (message, source, line) {
           <div id="notebook-text" class="notebook-text"></div>
           <div class="row">
             <button id="btn-notebook-action" class="menu-btn notebook-btn" hidden></button>
-            <button id="btn-notebook-back" class="menu-btn notebook-btn">Back to the pages</button>
+            <button id="btn-notebook-back" class="menu-btn back notebook-btn">Back to the pages</button>
           </div>
         </div>
         <div class="row">
-          <button id="btn-notebook-title" class="menu-btn notebook-btn">Close the notebook</button>
+          <button id="btn-notebook-title" class="menu-btn back notebook-btn">Close the notebook</button>
         </div>
       </div>
     </section>
@@ -218,7 +218,7 @@ window.onerror = function (message, source, line) {
         <div id="handoff-video-slot"></div>
         <div id="handoff-letter" class="notebook-text handoff-letter"></div>
         <div class="row">
-          <button id="btn-handoff-back" class="menu-btn notebook-btn">Put the letter down</button>
+          <button id="btn-handoff-back" class="menu-btn back notebook-btn">Put the letter down</button>
         </div>
       </div>
     </section>
@@ -241,7 +241,7 @@ window.onerror = function (message, source, line) {
         <h3>Asset report</h3>
         <div id="dev-assets" class="dev-box"></div>
         <div class="row">
-          <button id="btn-dev-back" class="menu-btn">Back</button>
+          <button id="btn-dev-back" class="menu-btn back">Back</button>
         </div>
       </div>
     </section>
@@ -277,6 +277,7 @@ window.onerror = function (message, source, line) {
 <script src="src/engine/key.js"></script>
 <script src="src/engine/eras.js"></script>
 <script src="src/engine/audio.js"></script>
+<script src="src/engine/ui.js"></script>
 <script src="src/engine/scenes.js"></script>
 <script src="src/engine/rooms.js"></script>
 <script src="src/engine/puzzles.js"></script>

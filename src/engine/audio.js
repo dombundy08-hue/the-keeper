@@ -92,6 +92,21 @@ CH.audio = (function () {
       }
     },
 
+    /* Short UI feedback sound. Never interrupts the voice line;
+       respects global volume and mute; failures stay silent. */
+    playUi: function (id, volumeScale) {
+      var el = getElement(id);
+      if (!el) return;
+      var s = CH.state.get().settings;
+      if (s.muted) return;
+      try {
+        el.volume = Math.max(0, Math.min(1, s.volume * (volumeScale || 1)));
+        el.currentTime = 0;
+        var p = el.play();
+        if (p && p.catch) p.catch(function () {});
+      } catch (e) {}
+    },
+
     /* A short sound layered OVER the current line (the bug's static
        burst). Never interrupts the voice; failures stay silent.
        delayMs is presentation timing only, never a gate. */

@@ -64,6 +64,9 @@ CH.screens = (function () {
         settings: 'set-volume'
       }[name];
       if (focusTarget && el(focusTarget)) el(focusTarget).focus();
+
+      /* magnifier in rooms, pointing hand everywhere else */
+      if (CH.ui) CH.ui.setMode(name === 'room' ? 'magnifier' : 'hand');
     },
 
     currentScreen: function () { return current; },
@@ -124,8 +127,10 @@ CH.screens = (function () {
         var raw = el('code-input').value;
         if (!raw.trim()) return;
         if (CH.puzzles.tryCode(raw)) {
+          if (CH.ui) CH.ui.select();
           el('code-input').value = '';
         } else {
+          if (CH.ui) CH.ui.denied();
           fb.textContent = 'That is not a code the Keeper knows. Check the letters again.';
           fb.className = 'feedback bad';
         }
@@ -259,6 +264,7 @@ CH.screens = (function () {
           CH.scenes.skipOrAdvance();
         }
         if (ev.key === 'Escape') {
+          if (current !== 'title' && current !== 'error' && CH.ui) CH.ui.back();
           if (current === 'scene') self.openSettings('scene');
           else if (current === 'room') self.openSettings('room');
           else if (current === 'settings') leaveSettings();
