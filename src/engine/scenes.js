@@ -93,7 +93,7 @@ CH.scenes = (function () {
   /* ---- render ---- */
   function render(chapter, scene, opts) {
     opts = opts || {};
-    document.body.setAttribute('data-era', chapter.era || 'warm');
+    CH.eras.apply(chapter.era || 'warm');
     document.getElementById('scene-speaker').textContent = scene.speaker || '';
     renderArt(scene.art);
     if (opts.quiet) {

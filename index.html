@@ -199,6 +199,15 @@ window.onerror = function (message, source, line) {
     <!-- The keyhole. Small, quiet, bottom-left. Five clicks. -->
     <button id="keyhole" aria-label="keyhole">&#9906;</button>
 
+    <!-- Broadcast chrome: the signature element. Crisp in episode 1,
+         decaying each era, gone entirely in the notebook. -->
+    <div id="chrome" aria-hidden="true">
+      <div class="chrome-scanlines"></div>
+      <div class="chrome-vignette"></div>
+      <div class="chrome-tracking"></div>
+      <div id="chrome-bug" class="chrome-bug">CH&#8226;7 CURIOSITY HOUR</div>
+    </div>
+
   </div>
 </div>
 
@@ -206,6 +215,7 @@ window.onerror = function (message, source, line) {
 <script src="src/engine/hash.js"></script>
 <script src="src/engine/state.js"></script>
 <script src="src/engine/key.js"></script>
+<script src="src/engine/eras.js"></script>
 <script src="src/engine/audio.js"></script>
 <script src="src/engine/scenes.js"></script>
 <script src="src/engine/rooms.js"></script>

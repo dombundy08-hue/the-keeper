@@ -379,6 +379,101 @@ body[data-era="cold"] .panel h2 { color: var(--accent); }
   border-left: 3px solid var(--danger);
 }
 
+/* ================================================================
+   BROADCAST CHROME — the signature element.
+   warm: crisp. cooling: flicker, thicker scanlines. cold: tracking
+   drift, decayed bug. notebook: gone entirely.
+   ================================================================ */
+#chrome {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+body[data-era="notebook"] #chrome { display: none; }
+
+/* scanlines */
+.chrome-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    var(--scanline-color, rgba(182, 199, 190, 0.05)) 2px,
+    var(--scanline-color, rgba(182, 199, 190, 0.05)) 3px
+  );
+}
+body[data-era="warm"]    { --scanline-color: rgba(182, 199, 190, 0.05); }
+body[data-era="cooling"] { --scanline-color: rgba(182, 199, 190, 0.10); }
+body[data-era="cold"]    { --scanline-color: rgba(182, 199, 190, 0.16); }
+body[data-era="cold"] .chrome-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 1px,
+    var(--scanline-color) 1px,
+    var(--scanline-color) 3px
+  );
+}
+
+/* CRT vignette + the slightest curve */
+.chrome-vignette {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  box-shadow: inset 0 0 42px rgba(20, 17, 15, 0.55);
+}
+body[data-era="cold"] .chrome-vignette {
+  box-shadow: inset 0 0 60px rgba(20, 17, 15, 0.8),
+              inset 0 0 24px rgba(140, 47, 39, 0.18);
+}
+
+/* channel bug */
+.chrome-bug {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--phosphor);
+  opacity: 0.5;
+  text-shadow: 0 0 3px rgba(182, 199, 190, 0.6);
+}
+body[data-era="cooling"] .chrome-bug {
+  animation: bug-flicker 7s steps(1) infinite;
+}
+body[data-era="cold"] .chrome-bug {
+  opacity: 0.35;
+  animation: bug-flicker 2.3s steps(1) infinite;
+}
+@keyframes bug-flicker {
+  0%, 91%, 96%, 100% { opacity: 0.5; }
+  92%, 95% { opacity: 0.08; }
+  93% { opacity: 0.3; transform: translateX(1px); }
+}
+
+/* tracking band: only when the signal is failing */
+.chrome-tracking { display: none; }
+body[data-era="cold"] .chrome-tracking {
+  display: block;
+  position: absolute;
+  left: 0; right: 0;
+  height: 7px;
+  background: linear-gradient(to bottom,
+    transparent, rgba(182, 199, 190, 0.12), rgba(20, 17, 15, 0.35), transparent);
+  animation: tracking-drift 9s linear infinite;
+}
+@keyframes tracking-drift {
+  0%   { top: 105%; }
+  100% { top: -5%; }
+}
+
+/* cooling also mutes the whole picture slightly */
+body[data-era="cooling"] #stage { filter: saturate(0.82); }
+body[data-era="cold"]    #stage { filter: saturate(0.55) contrast(1.06); }
+body[data-era="notebook"] #stage { filter: none; }
+
 /* ---- Reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

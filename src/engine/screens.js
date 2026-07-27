@@ -48,7 +48,7 @@ CH.screens = (function () {
       current = name;
 
       if (name === 'title') {
-        document.body.setAttribute('data-era', 'warm');
+        CH.eras.applyForTitle();
         refreshTitle();
       }
       if (name === 'key') refreshKeyScreen();

@@ -149,6 +149,7 @@ CH.rooms = (function () {
       d.screen = 'room';
       CH.state.save();
 
+      CH.eras.applyForChapter(d.chapter);
       document.getElementById('room-name').textContent = room.name;
       renderBackground(room);
       buildHotspots(room);
